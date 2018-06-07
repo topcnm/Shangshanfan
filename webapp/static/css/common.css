@@ -1,0 +1,53 @@
+body, html{
+    background-color: #fafafa;
+}
+/*
+pink #ff649a
+bg #ff417f
+purple #573b9b
+*/
+h1,h2,h3,h4,h5,h6{
+    font-weight: normal;
+}
+
+/* public class */
+.ss-center {
+    width: 1150px;
+    margin: 0 auto;
+}
+
+/* frame class */
+.ss-top-banner {
+    height: 40px;
+    background-color: #4d32a3;
+}
+
+.ss-top-menu {
+    height: 110px;
+    background-color: #653fb3;
+}
+
+.ss-body {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+/* nav */
+.ss-nav .breadcrumb{
+    margin-bottom: 10px;
+    padding-left: 0;
+    background-color: #fafafa;
+}
+.ss-nav .breadcrumb-item+.breadcrumb-item::before {
+    content: '→';
+}
+.ss-nav .breadcrumb .breadcrumb-item,
+.ss-nav .breadcrumb .breadcrumb-item a {
+    color: #ff417f;
+    font-size: 14px;
+}
+
+/* ss-body */
+.ss-article-title {
+    margin-bottom: 40px;
+}

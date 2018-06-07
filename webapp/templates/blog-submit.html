@@ -1,0 +1,60 @@
+{% extends "layout-horizontal.html" %}
+{% block title %}新建博文{% endblock %}
+{% block body %}
+<h3 class="ss-article-title">新建博文</h3>
+<div class="ss-article-body">
+    <form action="/article/post" method="post" id="articleForm" onsubmit="return false">
+      <div class="form-group">
+        <label for="title">标题</label>
+        <input type="text" class="form-control" id="title" value="{{article.title}}" name='title' placeholder="Example input">
+        <input type="hidden" class="form-control" id="articleId" value="{{article.id}}" name='articleId' placeholder="Example input">
+      </div>
+      <div class="form-group">
+        <label for="inputState">分类</label>
+        <select id="inputState" name='tagId' class="form-control">
+            {% for tag in tags %}
+            {% if article.tagId == tag.id %}
+                <option selected value="{{tag.id}}">{{tag.title}}</option>
+            {% else %}
+                <option value="{{tag.id}}">{{tag.title}}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <div class="form-check">
+            {% if article.privacy %}
+                <input class="form-check-input" type="checkbox" id="privacyCheckbox" checked>
+            {% else %}
+                <input class="form-check-input" type="checkbox" id="privacyCheckbox">
+            {% endif %}
+          <label class="form-check-label" for="privacyCheckbox">
+            公开
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="formGroupExampleInput2">正文</label>
+        <input type="text" class="form-control" id="formGroupExampleInput2" name="content" value="{{article.content}}" placeholder="Another input">
+      </div>
+      <button type="submit" onclick="submitArticle()" class="btn btn-primary">Sign in</button>
+    </form>
+    <script>
+        var submitArticle = function () {
+            var privacyValue = $('#privacyCheckbox')[0].checked;
+            $.ajax({
+                url: '/article/post',
+                type: 'post',
+                data: $('#articleForm').serialize() + '&privacy=' + Number(privacyValue),
+                success: function (res) {
+                    /*
+                    * 如果保存成功，设置 articleId
+                    *
+                    * */
+                }
+            })
+            return false
+        }
+    </script>
+</div>
+{% endblock %}

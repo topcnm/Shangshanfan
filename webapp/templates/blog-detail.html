@@ -1,0 +1,57 @@
+{% extends "layout-horizontal.html" %}
+{% block title %}{{article.title}}{% endblock %}
+{% block body %}
+<style>
+    .ss-article-body .card-body {
+        padding: 30px;
+    }
+    .ss-article-body .card-body+.card-body {
+        padding-top: 0;
+    }
+    .ss-article-body .card-body .card-title {
+        margin-bottom: 1.25rem;
+    }
+    .ss-article-body .ss-article-side-ul {
+        margin-bottom: 0;
+        padding-left: 20px;
+        list-style: circle;
+    }
+    .ss-article-body .ss-article-side-ul li {
+        color: #ff417f;
+    }
+    .ss-article-body .ss-article-side-ul li p {
+        margin-bottom: 0;
+        color: #573b9b;
+        line-height: 34px;
+    }
+</style>
+<h3 class="ss-article-title">{{ article.title }}</h3>
+<div class="row show-grid ss-article-body">
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-body">
+                <img class="card-img-top" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528344918826&di=8cce4d6c6177875b94e01c1bd27af393&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3801213fb80e7beca9004ec5252eb9389b506b38.jpg" alt="Card image cap">
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    {{ article.content }}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Special title treatment</h5>
+                <ul class="ss-article-side-ul">
+                    <li><p>Cras justo odio</p></li>
+                    <li><p>Dapibus ac facilisis in</p></li>
+                    <li><p>Vestibulum at eros</p></li>
+                    <li><p>Vestibulum at eros</p></li>
+                    <li><p>Vestibulum at eros</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

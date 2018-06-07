@@ -8,13 +8,13 @@ class ProConfig(Config):
     SECRET_KEY = 'Life is good'
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{}:{}@{}:{}/{}'.format(
-        'root', '123456', 'localhost', '3306', 'mastering')
+        'root', '123456', 'localhost', '3306', 'shangshanfan')
 
 
 class DevConfig(Config):
     DEBUG = True
     SECRET_KEY = 'Ok we are Ok'
-    MAX_CONTENT_LENGTH = 1920 * 1080
+    MAX_CONTENT_LENGTH = 2800 * 1600
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{}:{}@{}:{}/{}'.format(
-        'root', '123456', 'localhost', '3306', 'mastering')
+        'root', '123456', 'localhost', '3306', 'shangshanfan')

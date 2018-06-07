@@ -1,8 +1,6 @@
 # coding=utf-8
-import sys
 from flask import abort, session
-sys.path.append('../')
-from extension import logger
+from webapp.extension import logger
 
 
 def login_required(func):
@@ -22,3 +20,10 @@ def record_operation(func):
 
     return wrapped_func
 
+
+def response_factory(data={}, success=True, message=""):
+    return {
+        'success': success,
+        'message': message,
+        'data': data,
+    }
