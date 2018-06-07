@@ -10,8 +10,8 @@
         <input type="hidden" class="form-control" id="articleId" value="{{article.id}}" name='articleId' placeholder="Example input">
       </div>
       <div class="form-group">
-        <label for="inputState">分类</label>
-        <select id="inputState" name='tagId' class="form-control">
+        <label for="tagId">分类</label>
+        <select id="tagId" name='tagId' class="form-control">
             {% for tag in tags %}
             {% if article.tagId == tag.id %}
                 <option selected value="{{tag.id}}">{{tag.title}}</option>
@@ -34,8 +34,8 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="formGroupExampleInput2">正文</label>
-        <input type="text" class="form-control" id="formGroupExampleInput2" name="content" value="{{article.content}}" placeholder="Another input">
+        <label for="content">正文</label>
+        <input type="text" class="form-control" id="content" name="content" value="{{article.content}}" placeholder="Another input">
       </div>
       <button type="submit" onclick="submitArticle()" class="btn btn-primary">Sign in</button>
     </form>
@@ -47,10 +47,9 @@
                 type: 'post',
                 data: $('#articleForm').serialize() + '&privacy=' + Number(privacyValue),
                 success: function (res) {
-                    /*
-                    * 如果保存成功，设置 articleId
-                    *
-                    * */
+                    if (res.success) {
+                        return $('#articleId').val(res.data.articleId)
+                    }
                 }
             })
             return false
