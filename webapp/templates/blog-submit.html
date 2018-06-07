@@ -37,23 +37,32 @@
         <label for="content">正文</label>
         <input type="text" class="form-control" id="content" name="content" value="{{article.content}}" placeholder="Another input">
       </div>
-      <button type="submit" onclick="submitArticle()" class="btn btn-primary">Sign in</button>
+      <button type="submit" id="submitArticle" class="btn btn-primary">Sign in</button>
     </form>
-    <script>
-        var submitArticle = function () {
-            var privacyValue = $('#privacyCheckbox')[0].checked;
-            $.ajax({
-                url: '/article/post',
-                type: 'post',
-                data: $('#articleForm').serialize() + '&privacy=' + Number(privacyValue),
-                success: function (res) {
-                    if (res.success) {
-                        return $('#articleId').val(res.data.articleId)
-                    }
-                }
-            })
-            return false
-        }
-    </script>
+
 </div>
+{% endblock %}
+{% block sub_script %}
+    <script>
+        (function ($) {
+            // submit article
+            $('#submitArticle').on('click',function () {
+                var privacyValue = $('#privacyCheckbox')[0].checked;
+                $.ajax({
+                    url: '/article/post',
+                    type: 'post',
+                    data: $('#articleForm').serialize() + '&privacy=' + Number(privacyValue),
+                    success: function (res) {
+                        if (res.success) {
+                            return $('#articleId').val(res.data.articleId)
+                        }
+                    }
+                })
+                return false
+            })
+
+            //initialize UEeditor
+
+        })(window.jQuery)
+    </script>
 {% endblock %}
