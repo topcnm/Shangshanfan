@@ -1,6 +1,12 @@
 {% extends "layout-horizontal.html" %}
 {% block title %}新建博文{% endblock %}
 {% block body %}
+<style>
+    .ss-editor-frame{
+        border: 1px solid #ced4da;
+    }
+
+</style>
 <h3 class="ss-article-title">新建博文</h3>
 <div class="ss-article-body">
     <form action="/article/post" method="post" id="articleForm" onsubmit="return false">
@@ -34,35 +40,60 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="content">正文</label>
-        <input type="text" class="form-control" id="content" name="content" value="{{article.content}}" placeholder="Another input">
+        <!--<label for="content">正文</label>-->
+        <!--<input type="text" class="form-control" id="content" name="content" value="{{article.content}}" placeholder="Another input">-->
+        <div class="ss-editor-frame">
+            <div id="div1" class="toolbar"></div>
+            <div style="padding: 5px 0; color: #ccc"></div>
+            <div id="div2" class="text"> <!--可使用 min-height 实现编辑区域自动增加高度-->
+                <p></p>
+            </div>
+        </div>
       </div>
+
       <button type="submit" id="submitArticle" class="btn btn-primary">Sign in</button>
     </form>
 
 </div>
 {% endblock %}
 {% block sub_script %}
-    <script>
-        (function ($) {
-            // submit article
-            $('#submitArticle').on('click',function () {
-                var privacyValue = $('#privacyCheckbox')[0].checked;
-                $.ajax({
-                    url: '/article/post',
-                    type: 'post',
-                    data: $('#articleForm').serialize() + '&privacy=' + Number(privacyValue),
-                    success: function (res) {
-                        if (res.success) {
-                            return $('#articleId').val(res.data.articleId)
-                        }
+
+<script>
+    var page_editor;
+    (function ($) {
+        // submit article
+        var $subButton = $('#submitArticle');
+        var $articleId = $('#articleId');
+        var $articleForm = $('#articleForm');
+        var $checkbox = $('#privacyCheckbox');
+
+        $subButton.on('click',function () {
+            $.ajax({
+                url: '/article/post',
+                type: 'post',
+                data: $articleForm.serialize() +
+                    '&privacy=' + Number($checkbox[0].checked) +
+                    '&content=' + page_editor.txt.html(),
+                dataType : "json",
+                success: function (res) {
+                    if (res.success) {
+                        return $articleId.val(res.data.articleId)
                     }
-                })
-                return false
-            })
+                }
+            });
+        })
 
-            //initialize UEeditor
-
-        })(window.jQuery)
-    </script>
+    })(window.jQuery)
+</script>
+<script>
+    (function ($) {
+        var E = window.wangEditor;
+        page_editor = new E('#div1', '#div2');
+        page_editor.customConfig.uploadImgServer = '/picture/uploadImage';
+        page_editor.customConfig.showLinkImg = false;
+        page_editor.customConfig.uploadFileName = 'image'
+        page_editor.create();
+        page_editor.txt.html('{{article.content |safe}}');
+    })(window.jQuery)
+</script>
 {% endblock %}

@@ -10,14 +10,10 @@ article = Blueprint('article', __name__)
 
 @article.route("/<int:id>")
 def page_article_detail(id):
-    article_detail = {
-        'id': 12,
-        'title': 'Throfs dana Gusyet Satmasy',
-        'content': 'Thi is thr first here ;good is better'
-    }
+    essay = Article.query.filter(Article.id == id).first()
     return render_template(
         'blog-detail.html',
-        article=article_detail,
+        article=essay,
     )
 
 
@@ -50,7 +46,7 @@ def post_article_submit():
     content = request.form['content']
     tagId = request.form['tagId']
     privacy = int(request.form['privacy'])
-    print privacy, request.form
+    print privacy, "arti={}".format(articleId), request.form
     if articleId:
         Article.query.filter(Article.id == articleId).update({
             'title': title,
@@ -82,6 +78,6 @@ def post_article_submit():
     return json.dumps(response_factory(
         success=True,
         data={
-            'articleId': 1
+            'articleId': articleId or essay.id
         }
     ))

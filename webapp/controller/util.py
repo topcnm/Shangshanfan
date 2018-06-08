@@ -27,3 +27,11 @@ def response_factory(data={}, success=True, message=""):
         'message': message,
         'data': data,
     }
+
+
+def upload_res_factory(message= '', errno=0, data=[]):
+    return {
+        'message': message,
+        'errno': errno,
+        'data': data
+    }

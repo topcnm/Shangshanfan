@@ -28,6 +28,7 @@ class Author(db.Model, Utf8Set):
     articles = db.relationship('Article', backref='author', lazy='dynamic')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
     albums = db.relationship('Album', backref='author', lazy='dynamic')
+    pictures = db.relationship('Picture', backref='author', lazy='dynamic')
 
     def __init__(self, username):
         self.username = username
@@ -156,6 +157,7 @@ class Album(db.Model, Utf8Set):
     cover = db.Column(db.String(255), nullable=False)
 
     privacy = db.Column(db.Boolean, default=False)
+    createDate = db.Column(db.DateTime, default=datetime.datetime.now)
 
     # one to one
     authorId = db.Column(db.Integer, db.ForeignKey('author.id'))
@@ -173,10 +175,17 @@ class Picture(db.Model, Utf8Set):
     __tablename__ = 'picture'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    remark = db.Column(db.String(255))
+    remark = db.Column(db.String(255), default=u'the owner was lazy and left nothing')
 
     # In the near future , we may save the pics by two resolutions
     # one is for list, another is for detail
     fullLink = db.Column(db.String(255))
     tinyLink = db.Column(db.String(255))
+    uploadDate = db.Column(db.DateTime, default=datetime.datetime.now)
     albumId = db.Column(db.Integer, db.ForeignKey('album.id'))
+    authorId = db.Column(db.Integer, db.ForeignKey('author.id'))
+
+    def __init__(self, fullLink, tinyLink, authorId):
+        self.fullLink = fullLink
+        self.tinyLink = tinyLink
+        self.authorId = authorId

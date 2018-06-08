@@ -1,8 +1,7 @@
 *.swp
 *.pyc
 migrations/
-menv/
 venv/
 .idea/
-static/
 webapp/config.*
+webapp/static/store/
