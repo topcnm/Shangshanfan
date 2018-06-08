@@ -46,7 +46,7 @@ def post_article_submit():
     content = request.form['content']
     tagId = request.form['tagId']
     privacy = int(request.form['privacy'])
-    print privacy, "arti={}".format(articleId), request.form
+
     if articleId:
         Article.query.filter(Article.id == articleId).update({
             'title': title,

@@ -8,6 +8,7 @@ import os
 import re
 import time
 import random
+import string
 
 
 ALLOW_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'bmp']
@@ -43,11 +44,21 @@ def upload_image():
     image_type = get_file_appendix(image.filename)
 
     if is_allowed_upload(image_type):
-        file_name = time.strftime('%Y%m%d%H%M%S') \
-            + str(random.randint(1111, 9999))
+        # generate an random name
+        file_name = time.strftime('%Y%m%d%H%M%S') + ''.join(random.sample(string.letters, 8))
 
-        ref_file_path = '/static/store/{}.{}'.format(file_name, image_type)
-        abs_file_path = '{}/{}.{}'.format(store_path, file_name, image_type)
+        # ref path is for front_end and database
+        ref_file_path = '/static/store/{filename}.{appendix}'.format(
+            filename=file_name,
+            appendix=image_type
+        )
+
+        # abs path is for storing image
+        abs_file_path = '{folder}/{filename}.{appendix}'.format(
+            folder=store_path,
+            filename=file_name,
+            appendix=image_type
+        )
 
         pic = Picture(fullLink=ref_file_path, tinyLink=ref_file_path, authorId=1)
 
