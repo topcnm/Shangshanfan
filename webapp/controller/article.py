@@ -46,6 +46,7 @@ def post_article_submit():
     content = request.form['content']
     tagId = request.form['tagId']
     privacy = int(request.form['privacy'])
+    cover = request.form['cover']
 
     if articleId:
         Article.query.filter(Article.id == articleId).update({
@@ -53,13 +54,13 @@ def post_article_submit():
             'content': content,
             'privacy': privacy,
             'tagId': tagId,
-            'cover': '',
+            'cover': cover,
         })
     else:
         essay = Article(
             title=title,
             content=content,
-            cover='',
+            cover=cover,
             privacy=privacy,
             tagId=tagId,
             authorId=1
