@@ -61,7 +61,7 @@
         </div>
       </div>
 
-      <button type="submit" id="submitArticle" class="btn btn-primary">Sign in</button>
+      <button type="submit" id="submitArticle" class="btn btn-primary">保存</button>
     </form>
 
 </div>
@@ -117,7 +117,8 @@
             onSuccess: function (res) {
                 var imgUrl = res.data[0];
                 $imgCover[0].src = imgUrl;
-                $imgCoverInput.val(imgUrl)
+                $imgCoverInput.val(imgUrl);
+                $imgUploader.imgUploader('close');
             }
         });
 
