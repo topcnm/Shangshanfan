@@ -119,6 +119,9 @@
                 $imgCover[0].src = imgUrl;
                 $imgCoverInput.val(imgUrl);
                 $imgUploader.imgUploader('close');
+            },
+            onError: function () {
+                $imgUploader.imgUploader('clear');
             }
         });
 

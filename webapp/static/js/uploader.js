@@ -19,7 +19,12 @@
     $.fn.imgUploader.defaults = {
         url: '/picture/uploadImage',
         title: '上传图片',
-        onSuccess: function () { console.log('设置成功回调') }
+        onSuccess: function () {
+            console.log('设置成功回调')
+        },
+        onError: function () {
+            console.log('设置失败回调')
+        }
     };
 
     $.fn.imgUploader.methods = {
@@ -81,6 +86,9 @@
                     if (!res.errno) {
                         options.onSuccess(res);
                     }
+                },
+                error: function (err) {
+                    options.onError(err)
                 }
             })
         })

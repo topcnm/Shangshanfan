@@ -24,6 +24,9 @@
         color: #573b9b;
         line-height: 34px;
     }
+    .ss-article-body .ss-card-content img{
+        width: 100%;
+    }
 </style>
 <h3 class="ss-article-title">{{ article.title }}</h3>
 <div class="row show-grid ss-article-body">
@@ -32,7 +35,7 @@
             <div class="card-body" style="overflow: hidden">
                 <img class="card-img-top" src="{{ article.cover }}" alt="Card image cap">
             </div>
-            <div class="card-body">
+            <div class="card-body ss-card-content">
                 <p class="card-text">
                     {{ article.content |safe}}
                 </p>
