@@ -33,6 +33,65 @@ h1,h2,h3,h4,h5,h6{
     margin-bottom: 30px;
 }
 
+.ss-bottom-menu{
+    background-color: #653fb3;
+}
+
+.ss-logo-set {
+    line-height: 109px;
+}
+.ss-top-logo{
+    width: 75px;
+}
+
+.ss-logo-set h2 {
+    margin-left: 10px;
+    display: inline;
+    vertical-align: middle;
+
+    color: white;
+}
+
+.ss-menu-set {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.ss-menu-set.put-right {
+    float: right;
+}
+.ss-menu-set li {
+    padding: 0 25px;
+    display: inline;
+}
+
+.ss-menu-set li,
+.ss-menu-set li a {
+    line-height: 110px;
+    color: white;
+}
+
+.ss-bottom-menu {
+    padding: 10px 0;
+}
+.ss-bottom-menu hr{
+    height: 1px;
+    border: none;
+    margin: 0;
+    background-color: #8566bc;
+}
+
+.ss-bottom-menu .ss-bottom-about{
+    margin: 0;
+    color: white;
+    line-height: 110px;
+}
+
+.ss-bottom-menu .ss-bottom-about .ss-bottom-copyright{
+    float: right;
+}
+
 /* nav */
 .ss-nav .breadcrumb{
     margin-bottom: 10px;
