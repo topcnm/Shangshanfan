@@ -21,10 +21,9 @@
     <div class="ss-dashboard-card">
         <h4>{{tagType.title}}</h4>
         <p>{{tagType.remark}}</p>
-        <div class="row">
+        <div class="card-deck">
             {% for article in tagType.articles %}
-            <div class="col-sm-4">
-                <div class="card">
+                <div class="card ss-standard-card">
                   <img class="card-img-top" src="{{article.cover}}" alt="Card image cap">
                   <div class="card-body">
                     <h6>{{article.title}}</h6>
@@ -36,7 +35,6 @@
                     </a>
                   </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
     </div>

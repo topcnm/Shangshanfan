@@ -50,6 +50,18 @@ def page_article_list_by_tag(tagId, pageNo):
     essay_page = Article.query.filter(Article.tagId == tagId).paginate(pageNo, 10)
     total = essay_page.pages
 
+    recent_article = []
+
+    article_top_3 = Article.query.order_by(Article.createDate.desc()).limit(3)
+
+    for item in article_top_3:
+        recent_article.append({
+            'id': item.id,
+            'title': item.title,
+            'summary': item.summary,
+            'createDate': item.createDate,
+        })
+
     articles = []
 
     for item in essay_page.items:
@@ -68,6 +80,7 @@ def page_article_list_by_tag(tagId, pageNo):
         pageNo=pageNo,
         tags=tags,
         tag=tag,
+        recentArticle=recent_article,
     )
 
 
@@ -76,12 +89,24 @@ def page_article_list_by_tag(tagId, pageNo):
 def page_article_detail(id):
     # find all Tags
     tags = Tag.query.all()
+    recent_article = []
+
+    article_top_3 = Article.query.order_by(Article.createDate.desc()).limit(3)
+
+    for item in article_top_3:
+        recent_article.append({
+            'id': item.id,
+            'title': item.title,
+            'summary': item.summary,
+            'createDate': item.createDate,
+        })
 
     essay = Article.query.filter(Article.id == id).first()
     return render_template(
         'blog-detail.html',
         article=essay,
         tags=tags,
+        recentArticle=recent_article,
     )
 
 

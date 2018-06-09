@@ -19,10 +19,12 @@
     .ss-article-body .ss-article-side-ul li {
         color: #ff417f;
     }
-    .ss-article-body .ss-article-side-ul li p {
+    .ss-article-body .ss-article-side-ul li p{
         margin-bottom: 0;
-        color: #573b9b;
         line-height: 34px;
+    }
+    .ss-article-body .ss-article-side-ul li p a{
+        color: #573b9b;
     }
     .ss-article-body .ss-card-content img{
         width: 100%;
@@ -51,6 +53,25 @@
                     <li><p><a href="/article/list/{{tag.id}}/1">{{tag.title}}</a></p></li>
                     {% endfor %}
                 </ul>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 30px">
+            <div class="card-body">
+                <h5 class="card-title">近期发表</h5>
+                <ul class="list-group list-group-flush">
+                    {% for newArticle in recentArticle %}
+                        <li class="list-group-item" style="padding: 25px 20px 25px 0">
+                            <h6 style="color: #573b9b;">{{newArticle.title}}</h6>
+                            <p class="card-text" style="font-size: 14px;color: #8e8e8e">
+                                {{newArticle.summary}}
+                            </p>
+                            <small>
+                                <strong style="color: #8a8a8a">{{newArticle.createDate}}</strong>
+                            </small>
+                        </li>
+                    {% endfor %}
+                  </ul>
             </div>
         </div>
     </div>

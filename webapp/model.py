@@ -21,6 +21,7 @@ class Author(db.Model, Utf8Set):
     username = db.Column(db.String(128), unique=True, nullable=False)
     password = db.Column(db.String(64), nullable=False)
     nickname = db.Column(db.String(64), nullable=False)
+    isAdmin = db.Column(db.Boolean, default=False)
     portrait = db.Column(db.String(128))
     description = db.Column(db.String(512), default=u'This Guy is lazy enough! oops')
 
