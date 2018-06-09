@@ -45,13 +45,11 @@
     <div class="col-sm-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
+                <h5 class="card-title">游记分类</h5>
                 <ul class="ss-article-side-ul">
-                    <li><p>Cras justo odio</p></li>
-                    <li><p>Dapibus ac facilisis in</p></li>
-                    <li><p>Vestibulum at eros</p></li>
-                    <li><p>Vestibulum at eros</p></li>
-                    <li><p>Vestibulum at eros</p></li>
+                    {% for tag in tags %}
+                    <li><p><a href="/article/list/{{tag.id}}/1">{{tag.title}}</a></p></li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>

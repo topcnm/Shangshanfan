@@ -83,11 +83,13 @@
                 type: 'post',
                 data: $articleForm.serialize() +
                     '&privacy=' + Number($checkbox[0].checked) +
-                    '&content=' + page_editor.txt.html(),
+                    '&content=' + encodeURIComponent(page_editor.txt.html()) +
+                    '&summary=' + encodeURIComponent(page_editor.txt.text().slice(0, 100)),
                 dataType : "json",
                 success: function (res) {
                     if (res.success) {
-                        return $articleId.val(res.data.articleId)
+                        // return $articleId.val(res.data.articleId)
+                        window.location.href = '/article/detail/' + res.data.articleId
                     }
                 }
             });

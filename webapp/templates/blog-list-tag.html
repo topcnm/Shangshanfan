@@ -1,0 +1,71 @@
+{% extends "layout-horizontal.html" %}
+{% block title %}{{tag.title}}{% endblock %}
+{% block body %}
+<style>
+    .ss-article-body .ss-article-side-ul {
+        margin-bottom: 0;
+        padding-left: 20px;
+        list-style: circle;
+    }
+    .ss-article-body .ss-article-side-ul li {
+        color: #ff417f;
+    }
+    .ss-article-body .ss-article-side-ul li p {
+        margin-bottom: 0;
+        color: #573b9b;
+        line-height: 34px;
+    }
+    .ss-article-body .ss-card-content img{
+        width: 100%;
+    }
+    .ss-article-list-card img{
+        width: 100%;
+    }
+    .ss-article-list-card .ss-article-list-card-time{
+        font-weight: bolder;
+        color: #8a8a8a;
+    }
+    .ss-article-list-card .ss-article-list-summary{
+        color: #8e8e8e;
+        font-size: 14px;
+    }
+</style>
+<h3 class="ss-article-title">博文列表 — <small>{{tag.title}}</small></h3>
+<div class="row show-grid ss-article-body">
+    <div class="col-sm-8">
+      {% for article in articles%}
+        <div class="card ss-article-list-card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">
+                {{article.title}}
+            </h5>
+            <p>
+                <small class="ss-article-list-card-time">
+                    {{article.createDate}}
+                </small>
+            </p>
+            <img src="{{article.cover}}" alt="{{article.title}}"/>
+            <p class="card-text ss-article-list-summary" style="margin-top: 30px">
+                {{article.summary or '作者还未添加文字信息'}}
+            </p>
+            <a href="/article/detail/{{article.id}}" class="btn btn-primary" style="background-color: #ff649a; border: none">查看更多</a>
+          </div>
+        </div>
+        {% else %}
+            还没相关文章，建议您先看看其他
+        {% endfor %}
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">游记分类</h5>
+                <ul class="ss-article-side-ul">
+                    {% for tag in tags %}
+                    <li><p><a href="/article/list/{{tag.id}}/1">{{tag.title}}</a></p></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

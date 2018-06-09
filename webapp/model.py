@@ -63,6 +63,7 @@ class Article(db.Model, Utf8Set):
     title = db.Column(db.String(64), nullable=False)
     cover = db.Column(db.String(255))
     content = db.Column(db.Text, nullable=False)
+    summary = db.Column(db.String(255), default=u'作者还未添加文字信息')
 
     # default value is draft and public
     status = db.Column(db.Boolean, default=False)
@@ -79,9 +80,10 @@ class Article(db.Model, Utf8Set):
     # one to many
     comments = db.relationship('Comment', backref='article', lazy='dynamic')
 
-    def __init__(self, title, content, privacy, tagId, authorId, cover=''):
+    def __init__(self, title, content, summary, privacy, tagId, authorId, cover=''):
         self.title = title
         self.content = content
+        self.summary = summary
         self.privacy = privacy
         self.cover = cover
         self.tagId = tagId

@@ -1,0 +1,45 @@
+{% extends "layout-horizontal.html" %}
+{% block title %}博文分类{% endblock %}
+{% block body %}
+<style>
+    .ss-dashboard-card {
+        margin-bottom: 40px;
+    }
+    .ss-dashboard-card>h4 {
+        padding: 15px 0;
+        margin-bottom: 0;
+        border-bottom: 1px solid #e2e2e2;
+    }
+    .ss-dashboard-card>p {
+        padding: 35px 0;
+        color: #8e8e8e;
+    }
+</style>
+<h3 class="ss-article-title">博文分类</h3>
+<div class="show-grid ss-article-body">
+    {% for tagType in topiclist %}
+    <div class="ss-dashboard-card">
+        <h4>{{tagType.title}}</h4>
+        <p>{{tagType.remark}}</p>
+        <div class="row">
+            {% for article in tagType.articles %}
+            <div class="col-sm-4">
+                <div class="card">
+                  <img class="card-img-top" src="{{article.cover}}" alt="Card image cap">
+                  <div class="card-body">
+                    <h6>{{article.title}}</h6>
+                    <p style="font-size: 14px; color: #8e8e8e">{{article.summary}}</p>
+                    <a href="/article/detail/{{article.id}}"
+                       class="btn btn-primary"
+                       style="background-color: #ff649a; border: none">
+                        查看详情
+                    </a>
+                  </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

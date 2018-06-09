@@ -8,15 +8,84 @@ import json
 article = Blueprint('article', __name__)
 
 
-@article.route("/<int:id>")
+# article or destination sum
+@article.route("/dashboard")
+def page_article_sum():
+    tags = Tag.query.all()
+    tag_list = []
+
+    for item in tags:
+        articles = []
+
+        for index, article_item in enumerate(item.articles):
+            if index > 2:
+                break
+            articles.append({
+                'id': article_item.id,
+                'title': article_item.title,
+                'createDate': article_item.createDate,
+                'cover': article_item.cover,
+                'summary': article_item.summary,
+            })
+
+        if len(articles):
+            tag_list.append({
+                'title': item.title,
+                'remark': item.remark,
+                'articles': articles
+            })
+    return render_template(
+        'blog-dashboard.html',
+        topiclist=tag_list
+    )
+
+
+# article list by sort
+@article.route("/list/<int:tagId>/<int:pageNo>")
+def page_article_list_by_tag(tagId, pageNo):
+    # find all Tags
+    tags = Tag.query.all()
+    tag = Tag.query.filter(Tag.id == tagId).first()
+
+    essay_page = Article.query.filter(Article.tagId == tagId).paginate(pageNo, 10)
+    total = essay_page.pages
+
+    articles = []
+
+    for item in essay_page.items:
+        articles.append({
+            'id': item.id,
+            'title': item.title,
+            'createDate': item.createDate,
+            'cover': item.cover,
+            'summary': item.summary,
+        })
+
+    return render_template(
+        'blog-list-tag.html',
+        articles=articles,
+        total=total,
+        pageNo=pageNo,
+        tags=tags,
+        tag=tag,
+    )
+
+
+# article details
+@article.route("/detail/<int:id>")
 def page_article_detail(id):
+    # find all Tags
+    tags = Tag.query.all()
+
     essay = Article.query.filter(Article.id == id).first()
     return render_template(
         'blog-detail.html',
         article=essay,
+        tags=tags,
     )
 
 
+# article submit page
 @article.route("/post", methods=['get'])
 @article.route("/post/<int:id>", methods=['get'])
 def page_article_submit(id=0):
@@ -35,6 +104,7 @@ def page_article_submit(id=0):
     )
 
 
+# article submit api
 @article.route("/post", methods=['post'])
 def post_article_submit():
     """
@@ -47,6 +117,7 @@ def post_article_submit():
     tagId = request.form['tagId']
     privacy = int(request.form['privacy'])
     cover = request.form['cover']
+    summary = request.form['summary']
 
     if articleId:
         Article.query.filter(Article.id == articleId).update({
@@ -55,11 +126,13 @@ def post_article_submit():
             'privacy': privacy,
             'tagId': tagId,
             'cover': cover,
+            'summary': summary,
         })
     else:
         essay = Article(
             title=title,
             content=content,
+            summary=summary,
             cover=cover,
             privacy=privacy,
             tagId=tagId,
