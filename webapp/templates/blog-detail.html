@@ -1,4 +1,6 @@
 {% extends "layout-horizontal.html" %}
+{% block keywords %}{{article.title|safe}}{% endblock %}
+{% block description %}{{article.title|safe}}{% endblock %}
 {% block title %}{{article.title}}{% endblock %}
 {% block body %}
 <style>
@@ -35,7 +37,7 @@
     <div class="col-sm-8">
         <div class="card">
             <div class="card-body" style="overflow: hidden">
-                <img class="card-img-top" src="{{ article.cover }}" alt="Card image cap">
+                <img class="card-img-top" src="{{ article.cover }}" alt="{{article.title}}">
             </div>
             <div class="card-body ss-card-content">
                 <p class="card-text">
@@ -50,7 +52,7 @@
                 <h5 class="card-title">游记分类</h5>
                 <ul class="ss-article-side-ul">
                     {% for tag in tags %}
-                    <li><p><a href="/article/list/{{tag.id}}/1">{{tag.title}}</a></p></li>
+                    <li><p><a title="{{tag.title}}" href="/article/list/{{tag.id}}/1">{{tag.title}}</a></p></li>
                     {% endfor %}
                 </ul>
             </div>
