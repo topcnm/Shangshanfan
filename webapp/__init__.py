@@ -16,7 +16,7 @@ def create_app(config_name):
     bcrypt.init_app(app)
 
     # register blueprint, add url
-    app.register_blueprint(article, url_prefix='/article')
-    app.register_blueprint(picture, url_prefix='/picture')
+    app.register_blueprint(article, url_prefix='/shangshanfan/article')
+    app.register_blueprint(picture, url_prefix='/shangshanfan/picture')
 
     return app

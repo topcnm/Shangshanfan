@@ -11,7 +11,7 @@
 </style>
 <h3 class="ss-article-title">新建博文</h3>
 <div class="ss-article-body">
-    <form action="/article/post" method="post" id="articleForm" onsubmit="return false">
+    <form action="/shangshanfan/article/post" method="post" id="articleForm" onsubmit="return false">
       <div class="form-group">
         <label for="title">标题</label>
         <input type="text" class="form-control" id="title" value="{{article.title}}" name='title' placeholder="Example input">
@@ -79,7 +79,7 @@
 
         $subButton.on('click',function () {
             $.ajax({
-                url: '/article/post',
+                url: '/shangshanfan/article/post',
                 type: 'post',
                 data: $articleForm.serialize() +
                     '&privacy=' + Number($checkbox[0].checked) +
@@ -89,7 +89,7 @@
                 success: function (res) {
                     if (res.success) {
                         // return $articleId.val(res.data.articleId)
-                        window.location.href = '/article/detail/' + res.data.articleId
+                        window.location.href = '/shangshanfan/article/detail/' + res.data.articleId
                     }
                 }
             });
@@ -101,7 +101,7 @@
     (function ($) {
         var E = window.wangEditor;
         page_editor = new E('#div1', '#div2');
-        page_editor.customConfig.uploadImgServer = '/picture/uploadImage';
+        page_editor.customConfig.uploadImgServer = '/shangshanfan/picture/uploadImage';
         page_editor.customConfig.showLinkImg = false;
         page_editor.customConfig.uploadFileName = 'image'
         page_editor.create();

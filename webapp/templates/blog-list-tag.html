@@ -50,7 +50,7 @@
             <p class="card-text ss-article-list-summary" style="margin-top: 30px">
                 {{article.summary or '作者还未添加文字信息'}}
             </p>
-            <a href="/article/detail/{{article.id}}" class="btn btn-primary" style="background-color: #ff649a; border: none">查看更多</a>
+            <a href="/shangshanfan/article/detail/{{article.id}}" class="btn btn-primary" style="background-color: #ff649a; border: none">查看更多</a>
           </div>
         </div>
         {% else %}
@@ -63,7 +63,7 @@
                 <h5 class="card-title">游记分类</h5>
                 <ul class="ss-article-side-ul">
                     {% for tag in tags %}
-                    <li><p><a href="/article/list/{{tag.id}}/1">{{tag.title}}</a></p></li>
+                    <li><p><a href="/shangshanfan/article/list/{{tag.id}}/1">{{tag.title}}</a></p></li>
                     {% endfor %}
                 </ul>
             </div>
