@@ -1,5 +1,5 @@
 # coding=utf-8
-from flask import Flask
+from flask import Flask, render_template
 from extension import db, bcrypt, logger
 from config import DevConfig, ProConfig
 from controller.article import article
@@ -14,6 +14,10 @@ def create_app(config_name):
 
     db.init_app(app)
     bcrypt.init_app(app)
+
+    @app.errorhandler(404)
+    def page_not_found(err):
+        return render_template('404.html'), 404
 
     # register blueprint, add url
     app.register_blueprint(article, url_prefix='/shangshanfan/article')
