@@ -1,10 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "layout-horizontal.html" %}
+{% block keywords %}JayleenWang 上山畈{% endblock %}
+{% block description %}JayleenWang 上山畈{% endblock %}
+{% block title %}JayleenWang 上山畈 相册{% endblock %}
+{% block body %}
+<style>
+.ss-gallery-nav-tabs a {
+    color: #3f3f3f;
+}
+.ss-gallery-nav-tabs a.nav-link.active {
+    background-color: #fafafa;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+    border-bottom: 1px solid #ff649a;
+}
+</style>
+<h3 class="ss-article-title">相册走廊</h3>
+<div class=" show-grid ss-article-body">
+  <ul class="nav nav-tabs ss-gallery-nav-tabs" role="tablist">
+    {% for tag in tags %}
+        <li class="nav-item">
+            <a class="nav-link {% if loop.first %}active{% endif %}" data-toggle="tab" href="#{{tag.id}}">{{tag.title}}</a>
+        </li>
+    {% endfor %}
+  </ul>
+  <br/>
+  <div id="imgUploader" title="img uploader dom"></div>
+  <div id="albumCreate" title="album create dom"></div>
+  <div class="clearfix">
+      <button type="button" id="galleryUploadBtn" class="btn btn-primary">上传图片</button>
+      <button type="button" id="galleryCreateBtn" class="btn btn-secondary">新建相册</button>
+  </div>
+  <!-- Tab panes -->
+  <div class="tab-content">
+    {% for album in albums %}
+    <div id="home" class="container tab-pane {% if loop.first %}active{% endif %}"><br>
+        <!--请在第一个位置流出未关联相册的图片-->
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+{% block sub_script %}
+<script src="{{ url_for('static', filename='js/uploader.js') }}"></script>
+<script>
+    (function ($) {
+        // 上传组件
+        var $galleryUploadBtn = $('#galleryUploadBtn');
+        var $galleryCreateBtn = $('#galleryCreateBtn');
+        var $imgUploaderDom = $('#imgUploader');
 
-</body>
-</html>
+        $imgUploaderDom.imgUploader({
+            multiple: true,
+            onSuccess: function (res) {
+                //上传成功，请到对应相册中管理
+            },
+            onError: function () {
+                $imgUploaderDom.imgUploader('clear');
+            }
+        });
+
+        // 点击按钮，呼出上传组件
+        $galleryUploadBtn.on('click', function () {
+            $imgUploaderDom.imgUploader('open')
+        })
+
+
+
+    })(window.jQuery)
+</script>
+{% endblock %}

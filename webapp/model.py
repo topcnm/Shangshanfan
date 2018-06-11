@@ -102,6 +102,7 @@ class Tag(db.Model, Utf8Set):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(64), nullable=False)
+    tagType = db.Column(db.String(64), default='destination')
     remark = db.Column(db.String(255), default=u'No introduction for tag')
 
     albums = db.relationship('Album', backref='tag', lazy='dynamic')
@@ -168,6 +169,13 @@ class Album(db.Model, Utf8Set):
 
     # one to many
     pictures = db.relationship('Picture', backref='album', lazy='dynamic')
+
+    def __init__(self, title, remark, privacy, authorId, tagId):
+        self.title = title
+        self.remark = remark
+        self.privacy = privacy
+        self.authorId = authorId
+        self.tagId = tagId
 
 
 class Picture(db.Model, Utf8Set):

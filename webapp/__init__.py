@@ -3,7 +3,7 @@ from flask import Flask
 from extension import db, bcrypt, logger
 from config import DevConfig, ProConfig
 from controller.article import article
-from controller.album import picture
+from controller.album import picture, album
 
 
 def create_app(config_name):
@@ -18,5 +18,6 @@ def create_app(config_name):
     # register blueprint, add url
     app.register_blueprint(article, url_prefix='/shangshanfan/article')
     app.register_blueprint(picture, url_prefix='/shangshanfan/picture')
+    app.register_blueprint(album, url_prefix='/shangshanfan/album')
 
     return app
