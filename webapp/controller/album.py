@@ -60,6 +60,12 @@ def upload_image():
             appendix=image_type
         )
 
+        '''
+            TODO
+            1. 存储图片
+            2. 切割修改图片
+        '''
+
         pic = Picture(fullLink=ref_file_path, tinyLink=ref_file_path, authorId=1)
 
         db.session.add(pic)
