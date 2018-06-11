@@ -19,6 +19,7 @@
     $.fn.imgUploader.defaults = {
         url: '/shangshanfan/picture/uploadImage',
         title: '上传图片',
+        multiple: false,
         onSuccess: function () {
             console.log('设置成功回调')
         },
@@ -63,7 +64,11 @@
                             '<div class="modal-body">',
                                 '<form onsubmit="return false" id="_uploadForm">',
                                     '<div class="form-group">' ,
-                                        '<input type="file" name="image" class="form-control-file" id="_uploadInput">',
+                                        (options.multiple ?
+                                                '<input type="file" name="image" class="form-control-file" id="_uploadInput" multiple="multiple">'
+                                                :
+                                                '<input type="file" name="image" class="form-control-file" id="_uploadInput">'
+                                        ),
                                     '</div>',
                                 '</form>',
                             '</div>',

@@ -5,7 +5,7 @@ from webapp.extension import logger
 
 def login_required(func):
     def wrapped_func(*kw, **kwargs):
-        if 'user_id' in session:
+        if 'author_id' in session:
             return func(*kw, **kwargs)
         else:
             return abort(401)
@@ -29,9 +29,20 @@ def response_factory(data={}, success=True, message=""):
     }
 
 
-def upload_res_factory(message= '', errno=0, data=[]):
+def upload_res_factory(message='', errno=0, data=[]):
     return {
         'message': message,
         'errno': errno,
         'data': data
+    }
+
+
+def resize_image(location):
+    """
+    resize the picture
+    :param location: the location of file
+    :return:
+    """
+    return {
+        'tinyLink': ''
     }

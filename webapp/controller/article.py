@@ -131,7 +131,7 @@ def page_article_submit(id=0):
 
 # article submit api
 @article.route("/post", methods=['post'])
-def post_article_submit():
+def article_submit():
     """
     we have to differentiate auto submit and manually submit
     :return:
