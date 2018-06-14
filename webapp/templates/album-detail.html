@@ -53,8 +53,8 @@
 <div class="show-grid ss-article-body mt-3">
     <div class="row">
         {% for picture in pictures %}
-        <div class="col-sm-3 mb-3">
-            <div class="card ss-picture-card" data-big-picture="{{picture}}" data-picture="{{picture.id}}">
+        <div class="col-sm-3 ss-picture-col-{{picture.id}} mb-3">
+            <div class="card ss-picture-card" data-big-picture="{{picture.fullLink}}" data-picture="{{picture.id}}">
               <div class="ss-picture-img" style="background-image: url({{picture.tinyLink}})" title="{{picture.remark}}">
               </div>
               <div class="card-footer">
@@ -94,7 +94,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" id="albumModalClose"data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" id="pictureMoveBtn">移动</button>
       </div>
     </div>
@@ -130,8 +130,14 @@
                    pictureList: pictureArr.join()
                 },
                 success: function (res) {
-                    // 删除勾选的照片
 
+                    // remove selected picture
+                    pictureArr.forEach(function (pictureId) {
+                        $('.ss-picture-col-' + pictureId).remove()
+                    })
+
+                    // close model
+                    $('#albumModalClose').click()
                 }
             })
         })
@@ -139,12 +145,12 @@
         // SECTION 2: SET COVER
         var $setCoverBtn = $('#pictureCoverBtn');
         $setCoverBtn.on('click', function () {
-            var $firstCheckBox = $(".ss-picture-checkbox:first")
+            var $firstCheckBox = $(".ss-picture-checkbox:checked:first")
             var pictureId = $firstCheckBox.data('picture');
             var albumId = $firstCheckBox.data('album');
             $.ajax({
-                url: '/shangshanfan/album/setCover/' + albumId || 0 + "/" + pictureId,
-                type: 'post',
+                url: '/shangshanfan/album/setCover/' + (albumId || 0) + "/" + pictureId,
+                type: 'get',
                 success: function (res) {
                     console.log(13, res)
                 }

@@ -282,8 +282,9 @@ def album_delete(albumId):
 @album.route('/setCover/<int:albumId>/<int:pictureId>', methods=['get'])
 def album_set_cover(albumId, pictureId):
     picture = Picture.query.filter(Picture.id == pictureId).first()
-
+    print picture.tinyLink, albumId
     if picture:
+        print Album.query.filter(Album.id == albumId).first()
         Album.query.filter(Album.id == albumId).update({
             'cover': picture.tinyLink
         })
