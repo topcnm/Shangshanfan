@@ -1,6 +1,5 @@
 (function ($) {
     $.fn.imgUploader = function (action, params) {
-        console.log(arguments)
         if (typeof  action == "string") {
             return $.fn.imgUploader.methods[action](this, params)
         }

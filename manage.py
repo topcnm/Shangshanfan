@@ -3,7 +3,7 @@ from flask_script import Manager, Server
 from flask_migrate import Migrate, MigrateCommand
 from webapp import create_app
 from webapp.extension import db
-from webapp.model import Article
+from webapp.model import Article, Author
 from prepare import InitManager
 import os
 
@@ -20,7 +20,7 @@ manager.add_command('tag', InitManager)
 
 @manager.shell
 def get_shell_context():
-    return dict(app=app, Article=Article)
+    return dict(app=app, Article=Article, Author=Author)
 
 
 if __name__ == '__main__':

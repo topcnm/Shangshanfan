@@ -105,7 +105,7 @@ h1,h2,h3,h4,h5,h6{
     margin-bottom: 40px;
 }
 
-/* plugin */
+/* plugin uploader */
 .ss-uploader-frame{
     position: fixed;
     left: 0;
@@ -119,12 +119,22 @@ h1,h2,h3,h4,h5,h6{
 
 .ss-uploader-frame .ss-uploader-modal {
     display: block;
-    height: 300px;
-    width: 400px;
-    left: 50%;
-    top: 50%;
-    margin-left: -200px;
-    margin-top: -150px;
+}
+
+/* plugin album detail */
+.ss-albumDetail-frame {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 99999;
+    display: none;
+    background-color: rgba(50, 50, 50, 0.5);
+}
+
+.ss-albumDetail-frame .ss-albumDetail-modal {
+    display: block;
 }
 
 @media (max-width: 1100px) {

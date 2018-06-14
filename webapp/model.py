@@ -158,7 +158,7 @@ class Album(db.Model, Utf8Set):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(64), nullable=False)
     remark = db.Column(db.String(255), nullable=False)
-    cover = db.Column(db.String(255), nullable=False)
+    cover = db.Column(db.String(255))
 
     privacy = db.Column(db.Boolean, default=False)
     createDate = db.Column(db.DateTime, default=datetime.datetime.now)

@@ -170,12 +170,12 @@ def picture_migrate():
 
 
 @album.route('/create', methods=['post'])
-@login_required
+# @login_required
 def album_create():
     title = request.form['title']
     remark = request.form['remark']
-    privacy = request.form['privacy']
-    author_id = session['author_id']
+    privacy = bool(request.form['privacy'])
+    author_id = 1 or session['author_id']
     tagId = request.form['tagId']
 
     album = Album(
@@ -249,12 +249,13 @@ def album_delete(albumId):
 
 @album.route('/dashboard', methods=['get'])
 def page_album_dashboard():
-    albums = Album.query.all()
+    # albums = Album.query.all()
     tags = Tag.query.all()
+
     return render_template(
         'gallery.html',
-        albums=albums,
-        tags=tags
+        tagArr=tags,
+        tagsData=json.dumps([{"title": tag.title, "id": tag.id} for tag in tags])
     )
 
 
