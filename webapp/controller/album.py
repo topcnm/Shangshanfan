@@ -1,4 +1,5 @@
 # coding=utf-8
+from PIL import Image
 from flask import Blueprint, request, render_template, url_for, session, abort
 from webapp.extension import db
 from webapp.model import Picture, Album, Tag
@@ -62,6 +63,11 @@ def upload_image():
                 appendix=image_type
             )
 
+            mini_ref_file_path = '/static/store/{filename}_mini.{appendix}'.format(
+                filename=file_name,
+                appendix=image_type
+            )
+
             # abs path is for storing image
             abs_file_path = '{folder}/{filename}.{appendix}'.format(
                 folder=store_path,
@@ -69,23 +75,44 @@ def upload_image():
                 appendix=image_type
             )
 
-            # save
-            image.save(abs_file_path)
-
-            # if the size of the file is too large, remove it
-            if os.stat(abs_file_path).st_size > 1600 * 900:
-                os.remove(abs_file_path)
-                continue
-
-            pic = Picture(
-                fullLink=ref_file_path,
-                tinyLink=ref_file_path,
-                authorId=1
+            # min abs path for compressed image
+            mini_abs_file_path = '{folder}/{filename}_mini.{appendix}'.format(
+                folder=store_path,
+                filename=file_name,
+                appendix=image_type
             )
 
-            db.session.add(pic)
+            try:
+                # save raw picture, SAVE RAW PICTURE MUST COME FIRST!!!
+                image.save(abs_file_path)
 
-            path_arr.append(ref_file_path)
+                # save compressed picture, special manipulate 'jpg'
+                mini_image = Image.open(image, mode='r')
+
+                # manipulate size of image
+                width, height = mini_image.size
+
+                # resize picture
+                img_scale = min(width/320, height/220)
+
+                mini_image_output = mini_image.resize((width/img_scale, height/img_scale), Image.ANTIALIAS)
+                mini_image_output.save(mini_abs_file_path, image_type)
+
+            except Exception, reason:
+                continue
+            else:
+                if os.stat(abs_file_path).st_size > 1600 * 900:
+                    os.remove(abs_file_path)
+                    continue
+                pic = Picture(
+                    fullLink=ref_file_path,
+                    tinyLink=mini_ref_file_path,
+                    authorId=1
+                )
+
+                db.session.add(pic)
+
+                path_arr.append(ref_file_path)
         else:
             continue
 
@@ -262,19 +289,25 @@ def page_album_dashboard():
 # 0 for unsort
 @album.route('/query/<int:albumId>', methods=['get'])
 def page_album_query(albumId):
+    albums = Album.query.all()
     if albumId is 0:
-        pictures = Picture.query.filter(Picture.albumId is None).all()
+        pictures = Picture.query.filter(Picture.albumId == None).all()
+        print pictures
+
         return render_template(
             'album-detail.html',
-            pictures=pictures
+            pictures=pictures,
+            albums=albums,
         )
     else:
-        album = Album.query.filter(Album.id == albumId)
+        album = Album.query.filter(Album.id == albumId).first()
         if album:
             pictures = Picture.query.filter(Picture.albumId == albumId).all()
             return render_template(
                 'album-detail.html',
-                pictures=pictures
+                pictures=pictures,
+                albums=albums,
+                currentAlbum=album,
             )
 
         return abort(404)

@@ -1,10 +1,98 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "layout-horizontal.html" %}
+{% block keywords %}JayleenWang 上山畈{% endblock %}
+{% block description %}JayleenWang 上山畈{% endblock %}
+{% block title %}
+    {% if currentAlbum %}
+        {{currentAlbum.title}}
+    {% else %}
+        未分类相册
+    {% endif %}
+{% endblock %}
+{% block body %}
+<style>
+    .ss-album-frame {
+        height: 100%;
+    }
+    .ss-album-frame .ss-album-info{
+        padding: 5px;
+        margin-left: 75px;
+    }
+    .ss-album-frame img{
+        float: left;
+        width: 75px;
+        height: 75px;
+    }
+    .ss-album-frame .ss-album-info h6{
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+</style>
+<h3 class="ss-article-title">
+    {% if currentAlbum %}
+        {{currentAlbum.title}}
+    {% else %}
+        未分类相册
+    {% endif %}
+</h3>
+<div class="clearfix">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pictureBelong">移动到相册</button>
+    <button type="button" class="btn btn-danger">删除</button>
+</div>
+<div class=" show-grid ss-article-body mt-3">
+    <div class="card-columns">
+        {% for picture in pictures %}
+            <div class="card" data-picture="{{picture.id}}" data-big-picture="{{picture.fullLink}}">
+              <img class="card-img-top" src="{{picture.tinyLink}}" alt="Card image cap">
+              <div class="card-body">
+                <p class="card-text">{{picture.remark}}</p>
+              </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 
-</body>
-</html>
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="pictureBelong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        {% for album in albums %}
+          <div class="col-sm-4 mb-3" >
+              <div class="ss-album-frame border" data-album="{{album.id}}">
+                  <img src="{% if album.cover %}{{album.cover}}{% else %}/static/image/no-pic.jpeg{% endif %}" alt="{{album.title}}" />
+                  <div class="ss-album-info">
+                      <h6>{{album.title}}</h6>
+                  </div>
+              </div>
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="pictureMoveBtn">移动</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block sub_script %}
+<script>
+    (function ($) {
+        var allAlbum = $('.ss-album-frame')
+        allAlbum.on('click', function () {
+            allAlbum.removeClass('border-info');
+            $(this).addClass('border-info');
+        })
+    })(window.jQuery)
+
+</script>
+{% endblock %}

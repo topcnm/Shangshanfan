@@ -29,7 +29,8 @@
   <div id="albumCreate" title="album create dom"></div>
   <div class="clearfix">
       <button type="button" id="galleryUploadBtn" class="btn btn-primary">上传图片</button>
-      <button type="button" id="galleryCreateBtn" class="btn btn-secondary">新建相册</button>
+      <button type="button" id="galleryCreateBtn" class="btn btn-success">新建相册</button>
+      <button type="button" id="galleryUnSortBtn" class="btn btn-info">查看未分类相册</button>
   </div>
   <!-- Tab panes -->
   <div class="tab-content">
@@ -58,12 +59,13 @@
 <script src="{{ url_for('static', filename='js/albumCreator.js') }}"></script>
 <script>
     (function ($) {
-        // dom re
+        // dom alias
         var $galleryUploadBtn = $('#galleryUploadBtn');
         var $galleryCreateBtn = $('#galleryCreateBtn');
+        var $galleryUnSortBtn = $('#galleryUnSortBtn')
         var $imgUploaderDom = $('#imgUploader');
 
-        // 初始化上传组件
+        // initialize event binding
         $imgUploaderDom.imgUploader({
             multiple: true,
             onSuccess: function (res) {
@@ -74,13 +76,13 @@
             }
         });
 
-        // 点击按钮，呼出上传组件
+        // Event-binding: invoke upload plugin
         $galleryUploadBtn.on('click', function () {
             $imgUploaderDom.imgUploader('open')
         });
 
 
-        // 初始化修改组件
+        // initialize album creation plugin
         var $albumCreateDom = $('#albumCreate');
         var allTags = $('#tagsJsonUl').data('tags');
         $albumCreateDom.albumCreator({
@@ -94,21 +96,27 @@
                     success: function (res) {
                         if (res.success) {
                             $albumCreateDom.albumCreator('close')
-                            // todo 新增相册到对应DOM
+                            // todo add the new Album
                         }
                     }
                 });
             }
         })
 
+        // Event-binding: invoke album creator open
         $galleryCreateBtn.on('click', function () {
             $albumCreateDom.albumCreator('open')
         });
 
 
+        // Event-binding: link
         $('.album-card').on('click', function () {
             var albumId = $(this).data('album');
             window.location.href = '/shangshanfan/album/query/' + albumId;
+        })
+
+        $galleryUnSortBtn.on('click', function () {
+            window.location.href = '/shangshanfan/album/query/0';
         })
     })(window.jQuery)
 </script>
