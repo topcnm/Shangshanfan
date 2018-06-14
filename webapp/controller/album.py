@@ -95,7 +95,10 @@ def upload_image():
                 # resize picture
                 img_scale = min(width/320, height/220)
 
-                mini_image_output = mini_image.resize((width/img_scale, height/img_scale), Image.ANTIALIAS)
+                mini_image_output = mini_image.resize(
+                    (width/img_scale, height/img_scale),
+                    Image.ANTIALIAS
+                )
                 mini_image_output.save(mini_abs_file_path, image_type)
 
             except Exception, reason:
@@ -157,7 +160,7 @@ def picture_delete(pictureId):
 
 
 @picture.route('/migrate', methods=['post'])
-@login_required
+# @login_required
 def picture_migrate():
     """
     设置相册的归属
@@ -166,18 +169,20 @@ def picture_migrate():
     album_id = request.form['albumId']
     picture_list = request.form['pictureList']
 
+    print album_id, picture_list
     album = Album.query.filter(
         Album.id == album_id,
-        Album.authorId == session['author_id']
+        # Album.authorId == session['author_id']
     ).first()
-
-    if album and picture_list and album.id is album_id:
+    print type(album_id)
+    if album and picture_list:
+        picture_id_list = picture_list.split(',')
+        print picture_id_list
         Picture.query.filter(
-            Picture.id.in_(
-                picture_list.split(','))
+            Picture.id.in_(picture_id_list)
         ).update({
-            'albumId': album_id
-        })
+            'albumId': album.id
+        }, synchronize_session=False)
 
         try:
             db.session.commit()
@@ -272,6 +277,30 @@ def album_update():
 @album.route('/delete/<int:albumId>', methods=['get'])
 def album_delete(albumId):
     pass
+
+
+@album.route('/setCover/<int:albumId>/<int:pictureId>', methods=['get'])
+def album_set_cover(albumId, pictureId):
+    picture = Picture.query.filter(Picture.id == pictureId).first()
+
+    if picture:
+        Album.query.filter(Album.id == albumId).update({
+            'cover': picture.tinyLink
+        })
+        try:
+            db.session.commit()
+        except Exception, reason:
+            return json.dumps(response_factory(
+                success=False,
+                message=reason
+            ))
+        else:
+            return json.dumps(response_factory())
+
+    return json.dumps(response_factory(
+        success=False,
+        message=u'照片不存在'
+    ))
 
 
 @album.route('/dashboard', methods=['get'])

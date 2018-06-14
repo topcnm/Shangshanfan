@@ -39,7 +39,7 @@
         <div class="row">
             <!--请在第一个位置流出未关联相册的图片-->
             {% for album in tagObj.albums %}
-            <div class="col-sm-4 mb-3" >
+            <div class="col-sm-3 mb-3">
                 <div class="card album-card" data-album="{{album.id}}">
                   <img class="card-img-top" src="{% if album.cover %}{{album.cover}}{% else %}/static/image/no-pic.jpeg{% endif %}" alt="{{album.title}}">
                   <div class="card-body">

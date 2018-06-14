@@ -27,6 +27,14 @@
         text-overflow: ellipsis;
         overflow: hidden;
     }
+
+
+    .ss-picture-card .ss-picture-img{
+        height: 220px;
+        background-position: 50% 50%;
+        background-repeat: no-repeat ;
+        background-size: cover;
+    }
 </style>
 <h3 class="ss-article-title">
     {% if currentAlbum %}
@@ -37,17 +45,26 @@
 </h3>
 <div class="clearfix">
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pictureBelong">移动到相册</button>
+    {% if currentAlbum %}
+    <button type="button" class="btn btn-info" id="pictureCoverBtn">设为封面</button>
+    {% endif %}
     <button type="button" class="btn btn-danger">删除</button>
 </div>
-<div class=" show-grid ss-article-body mt-3">
-    <div class="card-columns">
+<div class="show-grid ss-article-body mt-3">
+    <div class="row">
         {% for picture in pictures %}
-            <div class="card" data-picture="{{picture.id}}" data-big-picture="{{picture.fullLink}}">
-              <img class="card-img-top" src="{{picture.tinyLink}}" alt="Card image cap">
-              <div class="card-body">
-                <p class="card-text">{{picture.remark}}</p>
+        <div class="col-sm-3 mb-3">
+            <div class="card ss-picture-card" data-big-picture="{{picture}}" data-picture="{{picture.id}}">
+              <div class="ss-picture-img" style="background-image: url({{picture.tinyLink}})" title="{{picture.remark}}">
+              </div>
+              <div class="card-footer">
+                  <small class="text-muted">
+                      <input class="ss-picture-checkbox mr-1" data-picture="{{picture.id}}" data-album="{% if currentAlbum %}{{currentAlbum.id}}{% endif %}" type="checkbox">
+                      {{picture.uploadDate}}
+                  </small>
               </div>
             </div>
+         </div>
         {% endfor %}
     </div>
 </div>
@@ -86,12 +103,56 @@
 {% endblock %}
 {% block sub_script %}
 <script>
+    // for album selector
     (function ($) {
-        var allAlbum = $('.ss-album-frame')
-        allAlbum.on('click', function () {
-            allAlbum.removeClass('border-info');
+        // SECTION 1: MODEL
+        // invoke album selector
+        var $albumSelector_allAlbum = $('.ss-album-frame');
+        $albumSelector_allAlbum.on('click', function () {
+            $albumSelector_allAlbum.removeClass('border-info');
             $(this).addClass('border-info');
         })
+
+        // move picture
+        var $albumSelector_moveBtn = $('#pictureMoveBtn')
+        $albumSelector_moveBtn.on('click', function () {
+            var pictureArr = []
+            $('.ss-picture-checkbox:checked').each(function () {
+                return pictureArr.push($(this).data('picture'))
+            });
+
+            var albumId = $('.ss-album-frame.border-info').data('album')
+            $.ajax({
+                url: '/shangshanfan/picture/migrate',
+                type: 'post',
+                data: {
+                   albumId: albumId,
+                   pictureList: pictureArr.join()
+                },
+                success: function (res) {
+                    // 删除勾选的照片
+
+                }
+            })
+        })
+
+        // SECTION 2: SET COVER
+        var $setCoverBtn = $('#pictureCoverBtn');
+        $setCoverBtn.on('click', function () {
+            var $firstCheckBox = $(".ss-picture-checkbox:first")
+            var pictureId = $firstCheckBox.data('picture');
+            var albumId = $firstCheckBox.data('album');
+            $.ajax({
+                url: '/shangshanfan/album/setCover/' + albumId || 0 + "/" + pictureId,
+                type: 'post',
+                success: function (res) {
+                    console.log(13, res)
+                }
+            })
+        })
+
+
+
     })(window.jQuery)
 
 </script>
