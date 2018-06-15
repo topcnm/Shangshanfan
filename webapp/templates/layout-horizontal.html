@@ -20,19 +20,52 @@
         </div>
         <div class="ss-top-menu">
             <div class="ss-center row">
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                     <san class="ss-logo-set">
                         <img class="ss-top-logo" src="/static/image/logo.png" alt="">
-                        <h2>JayleenWang</h2>
+                        <span>JayleenWang</span>
                     </san>
                 </div>
-                <div class="col-sm-6">
-                    <ul class="ss-menu-set put-right">
-                        <li><a title="Jayleen 上山畈首页" href="/shangshanfan/index">首页</a></li>
-                        <li><a title="Jayleen 上山畈首页" href="/shangshanfan/article/dashboard">目的地</a></li>
-                        <li><a title="Jayleen 上山畈首页" href="/shangshanfan/album/dashboard">相册</a></li>
-                        <li><a title="Jayleen 上山畈首页" href="/shangshanfan/about">关于我们</a></li>
-                        <li><a title="Jayleen 上山畈首页" href="/shangshanfan/contract">联系我们</a></li>
+                <div class="col-sm-7">
+                    <ul class="nav justify-content-end ss-top-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" title="Jayleen 上山畈首页" href="/shangshanfan/index">首页</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" title="Jayleen 上山畈首页" href="/shangshanfan/article/dashboard">目的地</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" title="Jayleen 上山畈首页" href="/shangshanfan/album/dashboard">相册</a>
+                        </li>
+                        <li class="dropdown show">
+                          <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Tim
+                          </a>
+                          {% if loginUser %}
+                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#">个人中心</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">登出</a>
+                          </div>
+                          {% else %}
+                          <div class="dropdown-menu dropdown-menu-right ss-login-dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <form class="px-3 py-3">
+                                <div class="form-group">
+                                  <label for="login_username">用户名</label>
+                                  <input type="username" class="form-control form-control-sm" id="login_username" placeholder="请输入用户名">
+                                </div>
+                                <div class="form-group">
+                                  <label for="login_password">密码</label>
+                                  <input type="password" class="form-control form-control-sm" id="login_password" placeholder="请输入密码">
+                                </div>
+                                  <!--<div class="dropdown-divider"></div>-->
+                                <button type="submit" class="btn btn-primary btn-sm">登 入</button>
+                                <button type="submit" class="btn btn-sm btn-outline-info">注 册</button>
+
+                              </form>
+                            </div>
+                          {% endif %}
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -55,14 +88,14 @@
         </div>
         <div class="ss-bottom-menu">
             <div class="ss-center">
-                <ul class="ss-menu-set">
-                    <li><a href="/shangshanfan/index">首页</a></li>
-                    <li><a title="Jayleen 上山畈首页" href="/shangshanfan/article/dashboard">目的地</a></li>
-                    <li><a title="Jayleen 上山畈首页" href="/shangshanfan/album/dashboard">相册</a></li>
-                    <li><a title="Jayleen 上山畈首页" href="/shangshanfan/about">关于我们</a></li>
-                    <li><a title="Jayleen 上山畈首页" href="/shangshanfan/contract">联系我们</a></li>
-                </ul>
-                <hr />
+                <!--<ul class="ss-menu-set">-->
+                    <!--<li><a href="/shangshanfan/index">首页</a></li>-->
+                    <!--<li><a title="Jayleen 上山畈首页" href="/shangshanfan/article/dashboard">目的地</a></li>-->
+                    <!--<li><a title="Jayleen 上山畈首页" href="/shangshanfan/album/dashboard">相册</a></li>-->
+                    <!--<li><a title="Jayleen 上山畈首页" href="/shangshanfan/about">关于我们</a></li>-->
+                    <!--<li><a title="Jayleen 上山畈首页" href="/shangshanfan/contract">联系我们</a></li>-->
+                <!--</ul>-->
+                <!--<hr />-->
                 <div class="ss-bottom-about row">
                     <div class="col-sm-6">
                         <span class="ss-bottom-contact ">
@@ -78,9 +111,9 @@
             </div>
         </div>
     </div>
-
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://v4.bootcss.com/assets/js/vendor/popper.min.js"></script>
+    <script src="https://v4.bootcss.com/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery.form/4.1.0/jquery.form.min.js"></script>
     {% block sub_script %}{% endblock %}
 </body>

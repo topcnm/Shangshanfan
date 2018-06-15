@@ -44,16 +44,16 @@
     {% endif %}
 </h3>
 <div class="clearfix">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pictureBelong">移动到相册</button>
+    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#pictureBelong">移动到相册</button>
     {% if currentAlbum %}
-    <button type="button" class="btn btn-info" id="pictureCoverBtn">设为封面</button>
+    <button type="button" class="btn btn-sm btn-info" id="pictureCoverBtn">设为封面</button>
     {% endif %}
-    <button type="button" class="btn btn-danger">删除</button>
+    <!--<button type="button" class="btn btn-danger">删除</button>-->
 </div>
 <div class="show-grid ss-article-body mt-3">
     <div class="row">
         {% for picture in pictures %}
-        <div class="col-sm-4 ss-picture-col-{{picture.id}} mb-3">
+        <div class="col-sm-3 ss-picture-col-{{picture.id}} mb-3">
             <div class="card ss-picture-card" data-big-picture="{{picture.fullLink}}" data-picture="{{picture.id}}">
               <div class="ss-picture-img" style="background-image: url({{picture.tinyLink}})" title="{{picture.remark}}">
               </div>

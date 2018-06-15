@@ -20,6 +20,15 @@
     background-repeat: no-repeat ;
     background-size: cover;
 }
+.ss-album-card .ss-album-card-body .ss-album-text{
+    height: 21px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    font-size: 14px;
+    color: #8a8a8a;
+}
 </style>
 <h3 class="ss-article-title">相册走廊</h3>
 <div class=" show-grid ss-article-body">
@@ -33,26 +42,27 @@
   <br/>
   <div id="imgUploader" title="img uploader dom"></div>
   <div id="albumCreate" title="album create dom"></div>
-  <div class="clearfix">
-      <button type="button" id="galleryUploadBtn" class="btn btn-primary">上传图片</button>
-      <button type="button" id="galleryCreateBtn" class="btn btn-success">新建相册</button>
-      <button type="button" id="galleryUnSortBtn" class="btn btn-info">查看未分类相册</button>
+  <div class="clearfix mb-3">
+      <button type="button" id="galleryUploadBtn" class="btn btn-sm btn-primary">上传图片</button>
+      <button type="button" id="galleryCreateBtn" class="btn btn-sm btn-success">新建相册</button>
+      <button type="button" id="galleryUnSortBtn" class="btn btn-sm btn-info">未分类相册</button>
   </div>
   <!-- Tab panes -->
   <div class="tab-content">
     {% for tagObj in tagArr %}
-    <div id="tag{{tagObj.id}}" class="tab-pane {% if loop.first %}active{% endif %}"><br>
+    <div id="tag{{tagObj.id}}" class="tab-pane {% if loop.first %}active{% endif %}">
         <div class="row">
             <!--请在第一个位置流出未关联相册的图片-->
             {% for album in tagObj.albums %}
-            <div class="col-sm-3 ss-album-col-{{album.id}} mb-3">
+            <div class="col-sm-4 ss-album-col-{{album.id}} mb-3">
                 <div class="card ss-album-card" data-album="{{album.id}}">
                     <div class="ss-album-img" style="background-image: url('{% if album.cover %}{{album.cover}}{% else %}/static/image/no-pic.jpeg{% endif %}')" >
 
                     </div>
                   <!--<img class="card-img-top" src="{% if album.cover %}{{album.cover}}{% else %}/static/image/no-pic.jpeg{% endif %}" alt="{{album.title}}">-->
-                  <div class="card-body">
-                    <p class="card-text">{{album.title}}</p>
+                  <div class="card-body ss-album-card-body">
+                      <h6>{{album.title}}</h6>
+                      <p class="card-text ss-album-text">{{album.remark}}</p>
                   </div>
                 </div>
             </div>

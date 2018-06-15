@@ -38,8 +38,8 @@ def author_login():
         ))
 
 
-@author.route("/logout", methods=['post'])
 @login_required
+@author.route("/logout", methods=['post'])
 def author_logout():
     session.pop('author_id')
     session.pop('author_name')
@@ -86,8 +86,8 @@ def author_register():
     ))
 
 
-@author.route("/update", methods=['post'])
 @login_required
+@author.route("/update", methods=['post'])
 def author_update():
     author_id = session['author_id']
     nickname = request.form['nickname']
@@ -112,8 +112,8 @@ def author_update():
     ))
 
 
-@author.route("/index", methods=['get'])
 @login_required
+@author.route("/index", methods=['get'])
 def page_author_update():
     return render_template(
         'author-center.html'

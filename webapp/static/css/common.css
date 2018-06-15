@@ -28,6 +28,14 @@ h1,h2,h3,h4,h5,h6{
     background-color: #653fb3;
 }
 
+.ss-top-menu .ss-top-nav {
+    padding: 34px 0;
+}
+
+.ss-login-dropdown-menu {
+    width: 230px;
+}
+
 .ss-body {
     margin-top: 30px;
     margin-bottom: 30px;
@@ -44,30 +52,6 @@ h1,h2,h3,h4,h5,h6{
     width: 75px;
 }
 
-.ss-logo-set h2 {
-    margin-left: 10px;
-    display: inline;
-    vertical-align: middle;
-
-    color: white;
-}
-
-.ss-menu-set {
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 0;
-}
-
-.ss-menu-set li {
-    padding: 0 25px;
-    display: inline;
-}
-
-.ss-menu-set li,
-.ss-menu-set li a {
-    line-height: 110px;
-    color: white;
-}
 
 .ss-bottom-menu {
     padding: 10px 0;
@@ -82,6 +66,7 @@ h1,h2,h3,h4,h5,h6{
 .ss-bottom-menu .ss-bottom-about{
     margin: 0;
     color: white;
+    font-size: 12px;
     line-height: 110px;
 }
 
@@ -145,7 +130,7 @@ h1,h2,h3,h4,h5,h6{
 
 
 /* Responsive breakpoints */
-@media (max-width: 800px) {
+@media (max-width: 570px) {
     .ss-menu-set {
         text-align: center;
     }
@@ -156,6 +141,10 @@ h1,h2,h3,h4,h5,h6{
     .ss-top-menu {
         height: auto;
         text-align: center;
+    }
+    .ss-top-menu .nav {
+        padding-top: 0;
+        justify-content: center!important;
     }
     .ss-bottom-menu .ss-bottom-about{
         text-align: center;

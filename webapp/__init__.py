@@ -4,6 +4,7 @@ from extension import db, bcrypt, logger
 from config import DevConfig, ProConfig
 from controller.article import article
 from controller.album import picture, album
+from controller.author import author
 
 
 def create_app(config_name):
@@ -23,5 +24,6 @@ def create_app(config_name):
     app.register_blueprint(article, url_prefix='/shangshanfan/article')
     app.register_blueprint(picture, url_prefix='/shangshanfan/picture')
     app.register_blueprint(album, url_prefix='/shangshanfan/album')
+    app.register_blueprint(author, url_prefix='/shangshanfan/author')
 
     return app
