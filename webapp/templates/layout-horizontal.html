@@ -39,7 +39,11 @@
                         </li>
                         <li class="dropdown show">
                           <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Tim
+                            {% if loginUser %}
+                              {{loginUser.nickname}}
+                            {% else %}
+                              未登录
+                            {% endif %}
                           </a>
                           {% if loginUser %}
                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
@@ -49,20 +53,19 @@
                           </div>
                           {% else %}
                           <div class="dropdown-menu dropdown-menu-right ss-login-dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <form class="px-3 py-3">
+                              <form class="px-3 py-3 needs-validation" id="loginForm" novalidate>
                                 <div class="form-group">
-                                  <label for="login_username">用户名</label>
-                                  <input type="username" class="form-control form-control-sm" id="login_username" placeholder="请输入用户名">
+                                  <label for="loginUsername">用户名</label>
+                                  <input type="text" name="username" class="form-control form-control-sm" id="loginUsername" placeholder="请输入用户名" required>
                                 </div>
                                 <div class="form-group">
-                                  <label for="login_password">密码</label>
-                                  <input type="password" class="form-control form-control-sm" id="login_password" placeholder="请输入密码">
+                                  <label for="loginPassword">密码</label>
+                                  <input type="password" name="password" class="form-control form-control-sm" id="loginPassword" placeholder="请输入密码" required>
                                 </div>
-                                  <!--<div class="dropdown-divider"></div>-->
-                                <button type="submit" class="btn btn-primary btn-sm">登 入</button>
-                                <button type="submit" class="btn btn-sm btn-outline-info">注 册</button>
-
+                                <button type="submit" id="submitLogin" class="btn btn-primary btn-sm">登 入</button>
                               </form>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="/shangshanfan/author/register">注 册</a>
                             </div>
                           {% endif %}
                         </li>
@@ -88,14 +91,6 @@
         </div>
         <div class="ss-bottom-menu">
             <div class="ss-center">
-                <!--<ul class="ss-menu-set">-->
-                    <!--<li><a href="/shangshanfan/index">首页</a></li>-->
-                    <!--<li><a title="Jayleen 上山畈首页" href="/shangshanfan/article/dashboard">目的地</a></li>-->
-                    <!--<li><a title="Jayleen 上山畈首页" href="/shangshanfan/album/dashboard">相册</a></li>-->
-                    <!--<li><a title="Jayleen 上山畈首页" href="/shangshanfan/about">关于我们</a></li>-->
-                    <!--<li><a title="Jayleen 上山畈首页" href="/shangshanfan/contract">联系我们</a></li>-->
-                <!--</ul>-->
-                <!--<hr />-->
                 <div class="ss-bottom-about row">
                     <div class="col-sm-6">
                         <span class="ss-bottom-contact ">
@@ -115,6 +110,28 @@
     <script src="https://v4.bootcss.com/assets/js/vendor/popper.min.js"></script>
     <script src="https://v4.bootcss.com/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery.form/4.1.0/jquery.form.min.js"></script>
+    <script>
+        (function ($) {
+            $('#loginForm').on('submit', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (this.checkValidity() === false) {
+                    return console.log('fill out form issue')
+                }
+                $.ajax({
+                    url: '/shangshanfan/author/login',
+                    type: 'post',
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.data && res.data.id ) {
+                            window.location.href = '/shangshanfan/album/dashboard'
+                        }
+                    }
+                })
+            })
+        })(window.jQuery)
+    </script>
     {% block sub_script %}{% endblock %}
 </body>
 </html>

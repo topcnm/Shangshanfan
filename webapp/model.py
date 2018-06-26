@@ -42,7 +42,7 @@ class Author(db.Model, Utf8Set):
 
     @staticmethod
     def get_author_by_username_and_password(username, password):
-        author = Author.query.filter(Article.username == username).first()
+        author = Author.query.filter(Author.username == username).first()
         if author:
             if author.check_password(password):
                 return author

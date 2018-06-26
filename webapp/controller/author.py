@@ -27,7 +27,7 @@ def author_login():
         session['author_id'] = author.id
         session['author_name'] = author.nickname
 
-        return json.dumps(render_template(
+        return json.dumps(response_factory(
             data={'id': author.id}
         ))
     else:
@@ -49,41 +49,55 @@ def author_logout():
     ))
 
 
-@author.route("/register", methods=['get'])
+@author.route("/register", methods=['get', 'post'])
 def page_author_register():
-    return render_template(
-        'register.html'
-    )
+    if request.method == 'GET':
+        return render_template(
+            'register.html'
+        )
+    else:
+        username = request.form['username']
+        password = request.form['password']
+        repeat_password = request.form['repeatPassword']
+        nickname = request.form['nickname']
 
+        exist_author = Author.query.filter(Author.username == username).first()
 
-@author.route("/register", methods=['post'])
-def author_register():
-    username = request.form['username']
-    password = request.form['password']
-    repeat_password = request.form['repeat_password']
+        if password != repeat_password or exist_author:
+            return render_template(
+                'register.html',
+                username=username,
+                nickname=nickname,
+                error=response_factory(
+                    success=False,
+                    message=u'用户已存在' if exist_author else u'密码不一致'
+                )
+            )
 
-    if password is not repeat_password:
-        return json.dumps(response_factory(
-            success=False,
-            message=u'密码重复不一致'
-        ))
+        author = Author(username=username)
+        author.set_password(password)
+        author.nickname = nickname
 
-    author = Author(username=username)
-    author.set_password(password)
+        db.session.add(author)
 
-    db.session.add(author)
-
-    try:
-        db.session.commit()
-    except Exception, reason:
-        return json.dumps(response_factory(
-            success=False,
-            message=reason
-        ))
-
-    return json.dumps(response_factory(
-        data={'id': author.id}
-    ))
+        try:
+            db.session.commit()
+        except Exception, reason:
+            return render_template(
+                'register.html',
+                username=username,
+                nickname=nickname,
+                error=response_factory(
+                    success=False,
+                    message=reason
+                )
+            )
+        else:
+            # directly login in
+            # session['author_id'] = author.id
+            return json.dumps(response_factory(
+                data={'id': author.id}
+            ))
 
 
 @login_required

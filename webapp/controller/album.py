@@ -2,7 +2,7 @@
 from PIL import Image
 from flask import Blueprint, request, render_template, url_for, session, abort
 from webapp.extension import db
-from webapp.model import Picture, Album, Tag
+from webapp.model import Picture, Album, Tag, Author
 from util import response_factory, upload_res_factory, login_required
 import json
 import os
@@ -308,9 +308,12 @@ def album_set_cover(albumId, pictureId):
 def page_album_dashboard():
     # albums = Album.query.all()
     tags = Tag.query.all()
+    if session['author_id']:
+        login_user = Author.query.filter(Author.id == session['author_id']).first()
 
     return render_template(
         'gallery.html',
+        loginUser=login_user or {},
         tagArr=tags,
         tagsData=json.dumps([{"title": tag.title, "id": tag.id} for tag in tags])
     )
