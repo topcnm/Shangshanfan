@@ -42,11 +42,13 @@
   <br/>
   <div id="imgUploader" title="img uploader dom"></div>
   <div id="albumCreate" title="album create dom"></div>
-  <div class="clearfix mb-3">
-      <button type="button" id="galleryUploadBtn" class="btn btn-sm btn-primary">上传图片</button>
-      <button type="button" id="galleryCreateBtn" class="btn btn-sm btn-success">新建相册</button>
-      <button type="button" id="galleryUnSortBtn" class="btn btn-sm btn-info">未分类相册</button>
-  </div>
+  {% if loginUser and loginUser.isAdmin %}
+      <div class="clearfix mb-3">
+          <button type="button" id="galleryUploadBtn" class="btn btn-sm btn-primary">上传图片</button>
+          <button type="button" id="galleryCreateBtn" class="btn btn-sm btn-success">新建相册</button>
+          <button type="button" id="galleryUnSortBtn" class="btn btn-sm btn-info">未分类相册</button>
+      </div>
+  {% endif %}
   <!-- Tab panes -->
   <div class="tab-content">
     {% for tagObj in tagArr %}

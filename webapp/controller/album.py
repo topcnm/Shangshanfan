@@ -42,7 +42,7 @@ def upload_image():
         os.mkdir(store_path)
 
     images = request.files.getlist('image')
-    path_arr = []
+    photo_path_arr = []
 
     if len(images) > 5:
         return json.dumps(upload_res_factory(
@@ -102,39 +102,40 @@ def upload_image():
                 mini_image_output.save(mini_abs_file_path, image_type)
 
             except Exception, reason:
+                print 1, reason
                 continue
             else:
-                if os.stat(abs_file_path).st_size > 1600 * 900:
+                if os.stat(abs_file_path).st_size > 1600 * 900:  # delete photo if it is too large
                     os.remove(abs_file_path)
+                    os.remove(mini_abs_file_path)
                     continue
-                pic = Picture(
+
+                picture_orm = Picture(
                     fullLink=ref_file_path,
                     tinyLink=mini_ref_file_path,
-                    authorId=1
+                    authorId=session.get('author_id'),
                 )
 
-                db.session.add(pic)
-
-                path_arr.append(ref_file_path)
+                db.session.add(picture_orm)
+                photo_path_arr.append(ref_file_path)
         else:
             continue
 
     try:
         db.session.commit()
     except Exception, reason:
-        # roll back if commit failed
-        for loc in path_arr:
-            os.remove(loc)
+        for photo in photo_path_arr:  # roll back if commit failed
+            os.remove(photo)
 
         return json.dumps(upload_res_factory(
             errno=1,
             message=reason,
         ))
     else:
-        len_arr = len(path_arr)
         return json.dumps(upload_res_factory(
-            errno=int(not len_arr),
-            data=path_arr,
+            errno=int(not photo_path_arr),
+            data=photo_path_arr,
+            message=u'上传失败' if int(not photo_path_arr) else ''
         ))
 
 
@@ -308,12 +309,15 @@ def album_set_cover(albumId, pictureId):
 def page_album_dashboard():
     # albums = Album.query.all()
     tags = Tag.query.all()
-    if session['author_id']:
+
+    login_user = None
+
+    if session.get('author_id'):
         login_user = Author.query.filter(Author.id == session['author_id']).first()
 
     return render_template(
         'gallery.html',
-        loginUser=login_user or {},
+        loginUser=login_user,
         tagArr=tags,
         tagsData=json.dumps([{"title": tag.title, "id": tag.id} for tag in tags])
     )
@@ -323,6 +327,12 @@ def page_album_dashboard():
 @album.route('/query/<int:albumId>', methods=['get'])
 def page_album_query(albumId):
     albums = Album.query.all()
+
+    login_user = None
+
+    if session.get('author_id'):
+        login_user = Author.query.filter(Author.id == session['author_id']).first()
+
     if albumId is 0:
         pictures = Picture.query.filter(Picture.albumId == None).all()
         print pictures
@@ -331,6 +341,7 @@ def page_album_query(albumId):
             'album-detail.html',
             pictures=pictures,
             albums=albums,
+            loginUser=login_user,
         )
     else:
         album = Album.query.filter(Album.id == albumId).first()
@@ -341,6 +352,7 @@ def page_album_query(albumId):
                 pictures=pictures,
                 albums=albums,
                 currentAlbum=album,
+                loginUser=login_user,
             )
 
         return abort(404)
