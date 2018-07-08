@@ -27,15 +27,15 @@ def author_login():
         session['author_id'] = author.id
         session['author_name'] = author.nickname
 
-        return json.dumps(response_factory(
+        return response_factory(
             data={'id': author.id}
-        ))
+        )
     else:
 
-        return json.dumps(response_factory(
+        return response_factory(
             success=False,
             message=u'账户或用户名错误'
-        ))
+        )
 
 
 @login_required
@@ -44,9 +44,9 @@ def author_logout():
     session.pop('author_id')
     session.pop('author_name')
 
-    return json.dumps(response_factory(
+    return response_factory(
         message=u'登出成功'
-    ))
+    )
 
 
 @author.route("/register", methods=['get', 'post'])
@@ -95,9 +95,9 @@ def page_author_register():
         else:
             # directly login in
             # session['author_id'] = author.id
-            return json.dumps(response_factory(
+            return response_factory(
                 data={'id': author.id}
-            ))
+            )
 
 
 @login_required
@@ -116,14 +116,14 @@ def author_update():
         })
         db.session.commit()
     except Exception, reason:
-        return json.dumps(response_factory(
+        return response_factory(
             success=False,
             message=reason
-        ))
+        )
 
-    return json.dumps(response_factory(
+    return response_factory(
         data={'id': author_id}
-    ))
+    )
 
 
 @login_required

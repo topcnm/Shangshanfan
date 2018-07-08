@@ -174,9 +174,9 @@ def article_submit():
             message=reason,
         )
 
-    return json.dumps(response_factory(
+    return response_factory(
         success=True,
         data={
             'articleId': articleId or essay.id
         }
-    ))
+    )

@@ -45,10 +45,10 @@ def upload_image():
     photo_path_arr = []
 
     if len(images) > 5:
-        return json.dumps(upload_res_factory(
+        return upload_res_factory(
             errno=1,
             message=u'一次上传太多图片',
-        ))
+        )
 
     for image in images:
         image_type = get_file_appendix(image.filename)
@@ -127,16 +127,16 @@ def upload_image():
         for photo in photo_path_arr:  # roll back if commit failed
             os.remove(photo)
 
-        return json.dumps(upload_res_factory(
+        return upload_res_factory(
             errno=1,
             message=reason,
-        ))
+        )
     else:
-        return json.dumps(upload_res_factory(
+        return upload_res_factory(
             errno=int(not photo_path_arr),
             data=photo_path_arr,
             message=u'上传失败' if int(not photo_path_arr) else ''
-        ))
+        )
 
 
 @picture.route('/delete/<int:pictureId>', methods=['get'])
@@ -147,17 +147,17 @@ def picture_delete(pictureId):
         try:
             db.session.commit()
         except Exception, reason:
-            return json.dumps(response_factory(
+            return response_factory(
                 success=False,
                 message=reason
-            ))
+            )
         else:
-            return json.dumps(response_factory())
+            return response_factory()
     else:
-        return json.dumps(response_factory(
+        return response_factory(
             success=False,
             message=u'相片不存在'
-        ))
+        )
 
 
 @picture.route('/migrate', methods=['post'])
@@ -188,18 +188,18 @@ def picture_migrate():
         try:
             db.session.commit()
         except Exception, reason:
-            return json.dumps(response_factory(
+            return response_factory(
                 success=False,
                 message=reason
-            ))
+            )
         else:
-            return json.dumps(response_factory())
+            return response_factory()
 
     else:
-        return json.dumps(response_factory(
+        return response_factory(
             success=False,
             message=u'相册不存在'
-        ))
+        )
 
 
 @album.route('/create', methods=['post'])
@@ -224,19 +224,19 @@ def album_create():
     try:
         db.session.commit()
     except Exception, reason:
-        return json.dumps(response_factory(
+        return response_factory(
             success=False,
             message=reason
-        ))
+        )
     else:
-        return json.dumps(response_factory(
+        return response_factory(
             data={
                 'title': title,
                 'tagId': tagId,
                 'remark': remark,
                 'privacy': privacy,
             }
-        ))
+        )
 
 
 @album.route('/update', methods=['post'])
@@ -260,19 +260,19 @@ def album_update():
     try:
         db.session.commit()
     except Exception, reason:
-        return json.dumps(response_factory(
+        return response_factory(
             success=False,
             message=reason
-        ))
+        )
     else:
-        return json.dumps(response_factory(
+        return response_factory(
             data={
                 'title': title,
                 'tagId': tagId,
                 'remark': remark,
                 'privacy': privacy,
             }
-        ))
+        )
 
 
 @album.route('/delete/<int:albumId>', methods=['get'])
@@ -292,17 +292,17 @@ def album_set_cover(albumId, pictureId):
         try:
             db.session.commit()
         except Exception, reason:
-            return json.dumps(response_factory(
+            return response_factory(
                 success=False,
                 message=reason
-            ))
+            )
         else:
-            return json.dumps(response_factory())
+            return response_factory()
 
-    return json.dumps(response_factory(
+    return response_factory(
         success=False,
         message=u'照片不存在'
-    ))
+    )
 
 
 @album.route('/dashboard', methods=['get'])

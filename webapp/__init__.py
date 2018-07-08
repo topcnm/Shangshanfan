@@ -1,6 +1,6 @@
 # coding=utf-8
 from flask import Flask, render_template
-from extension import db, bcrypt, logger
+from extension import db, bcrypt, logger, JSONResponse
 from config import DevConfig, ProConfig
 from controller.article import article
 from controller.album import picture, album
@@ -11,7 +11,7 @@ def create_app(config_name):
     app = Flask(__name__)
     # config website
     app.config.from_object(config_name)
-    pass
+    app.response_class = JSONResponse
 
     db.init_app(app)
     bcrypt.init_app(app)
