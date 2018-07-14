@@ -1,0 +1,20 @@
+<style>
+.ss-login-dropdown-menu {
+    width: 230px;
+}
+</style>
+<div class="dropdown-menu dropdown-menu-right ss-login-dropdown-menu" aria-labelledby="dropdownMenuLink">
+  <form class="px-3 py-3 needs-validation" id="loginForm" novalidate>
+    <div class="form-group">
+      <label for="loginUsername">用户名</label>
+      <input type="text" name="username" class="form-control form-control-sm" id="loginUsername" placeholder="请输入用户名" required>
+    </div>
+    <div class="form-group">
+      <label for="loginPassword">密码</label>
+      <input type="password" name="password" class="form-control form-control-sm" id="loginPassword" placeholder="请输入密码" required>
+    </div>
+    <button type="submit" id="submitLogin" class="btn btn-primary btn-sm">登 入</button>
+  </form>
+  <div class="dropdown-divider"></div>
+  <a class="dropdown-item" href="{{url_for('author.page_author_register')}}">注 册</a>
+</div>

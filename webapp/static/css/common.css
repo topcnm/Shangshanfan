@@ -14,26 +14,7 @@ h1,h2,h3,h4,h5,h6{
 /* public class */
 .ss-center {
     max-width: 1150px;
-    margin: 0 auto;
-}
-
-/* frame class */
-.ss-top-banner {
-    height: 40px;
-    background-color: #4d32a3;
-}
-
-.ss-top-menu {
-    height: 110px;
-    background-color: #653fb3;
-}
-
-.ss-top-menu .ss-top-nav {
-    padding: 34px 0;
-}
-
-.ss-login-dropdown-menu {
-    width: 230px;
+    margin: 0 auto!important;
 }
 
 .ss-body {

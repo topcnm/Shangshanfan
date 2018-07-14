@@ -13,6 +13,7 @@ class ProConfig(Config):
 
 class DevConfig(Config):
     DEBUG = True
+    HOST = '0.0.0.0'
     SECRET_KEY = 'Ok we are Ok'
     # MAX_CONTENT_LENGTH = 1600 * 900
     SQLALCHEMY_TRACK_MODIFICATIONS = True

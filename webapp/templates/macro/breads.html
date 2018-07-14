@@ -1,0 +1,13 @@
+{% macro rend_breads(breads=[]) %}
+    <div class="ss-nav-block">
+        <nav aria-label="breadcrumb" class="ss-nav">
+          <ol class="breadcrumb">
+              {% for bread in breads %}
+                <li class="breadcrumb-item">
+                    <a title="Jayleen 上山畈首页" href="{{bread.href}}">{{bread.name}}</a>
+                </li>
+              {% endfor %}
+          </ol>
+        </nav>
+    </div>
+{% endmacro %}
