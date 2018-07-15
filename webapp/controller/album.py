@@ -323,7 +323,8 @@ def album_set_carrousel(albumId):
         )
     else:
         new_album.iscarrousel = True
-        old_album.iscarrousel = False
+        if old_album:
+            old_album.iscarrousel = False
 
         try:
             db.session.commit()
