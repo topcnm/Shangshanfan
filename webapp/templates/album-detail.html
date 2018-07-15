@@ -43,9 +43,9 @@
     {% endif %}
 </h3>
 <div class="clearfix">
-    {% if loginUser and loginUser.isAdmin %}
-    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#pictureBelong">移动到相册</button>
-    <button type="button" class="btn btn-sm btn-info" id="pictureCoverBtn">设为封面</button>
+    {% if loginUser and loginUser.isAdmin and pictures %}
+        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#pictureBelong">移动到相册</button>
+        <button type="button" class="btn btn-sm btn-info" id="pictureCoverBtn">设为封面</button>
         {% if currentAlbum %}
         <button type="button" class="btn btn-sm btn-success" id="pictureCarrouselBtn">设为轮播图</button>
         {% endif %}
@@ -67,6 +67,8 @@
               </div>
             </div>
          </div>
+        {% else %}
+        暂时还有该相册的信息，请到未分类相册中选择照片
         {% endfor %}
     </div>
 </div>

@@ -231,6 +231,7 @@ def album_create():
     else:
         return response_factory(
             data={
+                'id': album.id,
                 'title': title,
                 'tagId': tagId,
                 'remark': remark,

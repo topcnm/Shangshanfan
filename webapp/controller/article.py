@@ -60,6 +60,11 @@ def page_article_list_by_tag(tagId, pageNo):
 
     article_top_3 = Article.query.order_by(Article.createDate.desc()).limit(3)
 
+    login_user = None
+
+    if session.get('author_id'):
+        login_user = Author.query.filter(Author.id == session['author_id']).first()
+
     for item in article_top_3:
         recent_article.append({
             'id': item.id,
@@ -81,6 +86,7 @@ def page_article_list_by_tag(tagId, pageNo):
 
     return render_template(
         'blog-list-tag.html',
+        loginUser=login_user,
         articles=articles,
         total=total,
         pageNo=pageNo,
@@ -99,6 +105,11 @@ def page_article_detail(id):
 
     article_top_3 = Article.query.order_by(Article.createDate.desc()).limit(3)
 
+    login_user = None
+
+    if session.get('author_id'):
+        login_user = Author.query.filter(Author.id == session['author_id']).first()
+
     for item in article_top_3:
         recent_article.append({
             'id': item.id,
@@ -110,6 +121,7 @@ def page_article_detail(id):
     essay = Article.query.filter(Article.id == id).first()
     return render_template(
         'blog-detail.html',
+        loginUser=login_user,
         article=essay,
         tags=tags,
         recentArticle=recent_article,

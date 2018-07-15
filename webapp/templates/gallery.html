@@ -90,17 +90,17 @@
             multiple: true,
             onSuccess: function (res) {
                 //上传成功，请到对应相册中管理
+                $imgUploaderDom.imgUploader('close').imgUploader('clear');
             },
             onError: function () {
                 $imgUploaderDom.imgUploader('clear');
-            }
+            },
         });
 
         // Event-binding: invoke upload plugin
         $galleryUploadBtn.on('click', function () {
             $imgUploaderDom.imgUploader('open')
         });
-
 
         // initialize album creation plugin
         var $albumCreateDom = $('#albumCreate');
@@ -116,7 +116,22 @@
                     success: function (res) {
                         if (res.success) {
                             $albumCreateDom.albumCreator('close')
+
                             // todo add the new Album
+                            var newAlbum = res.data;
+                            console.log(1)
+                            var newAblumHtml = '<div class="col-sm-4 ss-album-col-' + newAlbum.id + ' mb-3">' +
+                                '                <div class="card ss-album-card" data-album="' + newAlbum.id + '">' +
+                                '                    <div class="ss-album-img" style="background-image: url(\'/static/image/no-pic.jpeg\')" >' +
+                                '                    </div>' +
+                                '                  <div class="card-body ss-album-card-body">' +
+                                '                      <h6>' + newAlbum.title + '</h6>' +
+                                '                      <p class="card-text ss-album-text">' + newAlbum.remark + '</p>' +
+                                '                  </div>' +
+                                '                </div>' +
+                                '            </div>'
+                            console.log(newAblumHtml)
+                            $('#tag' + newAlbum.tagId + ' .row').append(newAblumHtml)
                         }
                     }
                 });
@@ -130,7 +145,7 @@
 
 
         // Event-binding: link
-        $('.ss-album-card').on('click', function () {
+        $('.tab-pane').on('click', '.ss-album-card', function () {
             var albumId = $(this).data('album');
             window.location.href = '/shangshanfan/album/query/' + albumId;
         })
