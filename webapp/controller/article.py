@@ -140,8 +140,14 @@ def page_article_submit(id=0):
     if id:
         essay = Article.query.filter(Article.id == id).first()
 
+    login_user = None
+
+    if session.get('author_id'):
+        login_user = Author.query.filter(Author.id == session['author_id']).first()
+
     return render_template(
         'blog-submit.html',
+        loginUser=login_user,
         tags=tags,
         article=essay
     )
