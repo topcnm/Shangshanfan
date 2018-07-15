@@ -38,7 +38,7 @@ def author_login():
         )
 
 
-@login_required
+# @login_required
 @author.route("/logout", methods=['post'])
 def author_logout():
     session.pop('author_id')

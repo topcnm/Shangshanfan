@@ -28,5 +28,4 @@ class JSONResponse(Response):
     def force_type(cls, response, environ=None):
         if isinstance(response, dict):
             response = jsonify(response)
-
         return super(JSONResponse, cls).force_type(response)

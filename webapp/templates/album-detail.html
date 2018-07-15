@@ -43,9 +43,12 @@
     {% endif %}
 </h3>
 <div class="clearfix">
+    {% if loginUser and loginUser.isAdmin %}
     <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#pictureBelong">移动到相册</button>
-    {% if currentAlbum %}
     <button type="button" class="btn btn-sm btn-info" id="pictureCoverBtn">设为封面</button>
+        {% if currentAlbum %}
+        <button type="button" class="btn btn-sm btn-success" id="pictureCarrouselBtn">设为轮播图</button>
+        {% endif %}
     {% endif %}
     <!--<button type="button" class="btn btn-danger">删除</button>-->
 </div>
@@ -156,7 +159,13 @@
             })
         })
 
-
+        // set as carrousel
+        var $setCarrouselBtn = $('#pictureCarrouselBtn');
+        $setCarrouselBtn.on('click', function (e) {
+            $.ajax({
+                url: '{{url_for("album.album_set_carrousel", albumId=currentAlbum.id if currentAlbum else 0 )}}'
+            })
+        })
 
     })(window.jQuery)
 

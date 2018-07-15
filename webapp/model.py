@@ -161,6 +161,7 @@ class Album(db.Model, Utf8Set):
     cover = db.Column(db.String(255))
 
     privacy = db.Column(db.Boolean, default=False)
+    iscarrousel = db.Column(db.Boolean, default=False)
     createDate = db.Column(db.DateTime, default=datetime.datetime.now)
 
     # one to one

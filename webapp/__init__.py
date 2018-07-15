@@ -2,6 +2,7 @@
 from flask import Flask, render_template
 from extension import db, bcrypt, logger, JSONResponse
 from config import DevConfig, ProConfig
+from controller.common import common
 from controller.article import article
 from controller.album import picture, album
 from controller.author import author
@@ -21,6 +22,7 @@ def create_app(config_name):
         return render_template('404.html'), 404
 
     # register blueprint, add url
+    app.register_blueprint(common, url_prefix='/shangshanfan')
     app.register_blueprint(article, url_prefix='/shangshanfan/article')
     app.register_blueprint(picture, url_prefix='/shangshanfan/picture')
     app.register_blueprint(album, url_prefix='/shangshanfan/album')

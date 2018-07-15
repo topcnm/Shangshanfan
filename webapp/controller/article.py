@@ -1,7 +1,7 @@
 # coding=utf-8
-from flask import Blueprint, request, render_template
+from flask import Blueprint, request, render_template, session
 from webapp.extension import db
-from webapp.model import Article, Tag
+from webapp.model import Article, Tag, Author
 from util import response_factory
 import json
 
@@ -13,6 +13,11 @@ article = Blueprint('article', __name__)
 def page_article_sum():
     tags = Tag.query.all()
     tag_list = []
+
+    login_user = None
+
+    if session.get('author_id'):
+        login_user = Author.query.filter(Author.id == session['author_id']).first()
 
     for item in tags:
         articles = []
@@ -36,6 +41,7 @@ def page_article_sum():
             })
     return render_template(
         'blog-dashboard.html',
+        loginUser=login_user,
         topiclist=tag_list
     )
 

@@ -26,9 +26,7 @@ h1,h2,h3,h4,h5,h6{
     background-color: #653fb3;
 }
 
-.ss-logo-set {
-    line-height: 109px;
-}
+
 .ss-top-logo{
     width: 75px;
 }
@@ -68,7 +66,7 @@ h1,h2,h3,h4,h5,h6{
 
 /* ss-body */
 .ss-article-title {
-    margin-bottom: 40px;
+    margin-top: 40px;
 }
 
 /* plugin uploader */

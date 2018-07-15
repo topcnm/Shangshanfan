@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends "layout-horizontal.html" %}
+{% block title %}Jayleen{% endblock %}
+{% block carrsousel %}
+    <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        {% for picture in album.pictures %}
+          <li data-target="#carouselIndicators"
+              data-slide-to="{{loop.index - 1}}"
+              class="{% if loop.first %}active{% endif %}">
+          </li>
+        {% endfor %}
+      </ol>
+      <div class="carousel-inner">
+        {% for picture in album.pictures %}
+        <div class="carousel-item {% if loop.first %}active{% endif %}">
+          <img class="d-block w-100"
+               src="{{picture.fullLink}}" alt="First slide">
+        </div>
+        {% endfor%}
+      </div>
+      <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+{% endblock %}

@@ -305,6 +305,38 @@ def album_set_cover(albumId, pictureId):
     )
 
 
+@album.route('/setCarrousel/<int:albumId>')
+def album_set_carrousel(albumId):
+    old_album = Album.query.filter(
+        Album.iscarrousel
+    ).first()
+
+    new_album = Album.query.filter(
+        Album.id == albumId
+    ).first()
+
+    if not new_album:
+        return response_factory(
+            success=False,
+            message=u'相册不存在'
+        )
+    else:
+        new_album.iscarrousel = True
+        old_album.iscarrousel = False
+
+        try:
+            db.session.commit()
+        except Exception, reason:
+            return response_factory(
+                success=False,
+                message=reason
+            )
+        else:
+            return response_factory(
+                message=u'操作成功'
+            )
+
+
 @album.route('/dashboard', methods=['get'])
 def page_album_dashboard():
     # albums = Album.query.all()
