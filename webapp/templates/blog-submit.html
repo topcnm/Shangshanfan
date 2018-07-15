@@ -14,7 +14,7 @@
     <form action="/shangshanfan/article/post" method="post" id="articleForm" onsubmit="return false">
       <div class="form-group">
         <label for="title">标题</label>
-        <input type="text" class="form-control" id="title" value="{{article.title}}" name='title' placeholder="Example input">
+        <input type="text" class="form-control" id="title" value="{{article.title}}" name='title' placeholder="请输入标题">
         <input type="hidden" class="form-control" id="articleId" value="{{article.id}}" name='articleId' placeholder="Example input">
       </div>
       <div id="imgUploader"></div>
@@ -24,7 +24,7 @@
         {% if article.cover %}
           <img class="ss-article-post-cover form-control" src="{{article.cover}}" alt="article.remark" id="articleCover"/>
         {% else %}
-          <img class="ss-article-post-cover form-control" src="/" alt="article.remark" id="articleCover"/>
+          <img class="ss-article-post-cover form-control" src="/static/image/no-pic.jpeg" alt="article.remark" id="articleCover"/>
         {% endif %}
       </div>
       <div class="form-group">
