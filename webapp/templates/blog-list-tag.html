@@ -15,7 +15,7 @@
         line-height: 34px;
     }
     .ss-article-body .ss-article-side-ul li p a{
-        color: #573b9b;
+        color: #17a2b8;
     }
     .ss-article-body .ss-card-content img{
         width: 100%;
@@ -32,7 +32,9 @@
         font-size: 14px;
     }
 </style>
-<h3 class="ss-article-title">博文列表 — <small>{{tag.title}}</small></h3>
+<h3 class="ss-article-title">
+    博文列表 — <small>{{tag.title}}</small>
+</h3>
 <div class="row show-grid ss-article-body">
     <div class="col-sm-8">
       {% for article in articles%}
@@ -58,6 +60,7 @@
         {% endfor %}
     </div>
     <div class="col-sm-4">
+        <button class="btn btn-outline-primary mb-3 w-100">新建文章</button>
         <div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title">游记分类</h5>
@@ -75,7 +78,7 @@
                 <ul class="list-group list-group-flush">
                     {% for newArticle in recentArticle %}
                         <li class="list-group-item" style="padding: 25px 20px 25px 0">
-                            <h6 style="color: #573b9b;">{{newArticle.title}}</h6>
+                            <h6 style="color: #17a2b8;">{{newArticle.title}}</h6>
                             <p class="card-text" style="font-size: 14px;color: #8e8e8e">
                                 {{newArticle.summary}}
                             </p>
