@@ -1,11 +1,10 @@
 # coding=utf-8
-from flask import Blueprint, request, render_template, session
+from flask import Blueprint, request, render_template, session, views
 from webapp.extension import db
 from webapp.model import Article, Tag, Author
 from util import response_factory
-import json
 
-article = Blueprint('article', __name__)
+article = Blueprint('article', __name__, template_folder="../blueprints/post")
 
 
 # article or destination sum
@@ -128,29 +127,36 @@ def page_article_detail(id):
     )
 
 
-# article submit page
-@article.route("/post", methods=['get'])
-@article.route("/post/<int:id>", methods=['get'])
-def page_article_submit(id=0):
-    # find all Tags
-    tags = Tag.query.all()
+class ArticlePostView(views.View):
+    def dispatch_request(self, id=None):
+        # find all Tags
+        tags = Tag.query.all()
 
-    # if id is given, set content
-    essay = None
-    if id:
-        essay = Article.query.filter(Article.id == id).first()
+        # if id is given, set content
+        essay = Article.query.filter(
+            Article.id == id
+        ).first()
 
-    login_user = None
+        login_user = Author.query.filter(
+            Author.id == session.get('author_id')
+        ).first()
 
-    if session.get('author_id'):
-        login_user = Author.query.filter(Author.id == session['author_id']).first()
+        return render_template(
+            'blog-submit.html',
+            loginUser=login_user,
+            tags=tags,
+            article=essay
+        )
 
-    return render_template(
-        'blog-submit.html',
-        loginUser=login_user,
-        tags=tags,
-        article=essay
-    )
+
+article.add_url_rule(
+    '/post',
+    view_func=ArticlePostView.as_view('page_article_create'),
+)
+article.add_url_rule(
+    '/post/<int:id>',
+    view_func=ArticlePostView.as_view('page_article_submit')
+)
 
 
 # article submit api

@@ -28,7 +28,7 @@ def get_file_appendix(filename):
     return result
 
 
-album = Blueprint('album', __name__)
+album = Blueprint('album', __name__, template_folder="../blueprints/album")
 
 
 picture = Blueprint('picture', __name__)

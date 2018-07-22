@@ -6,7 +6,7 @@ from util import response_factory, record_operation, login_required
 import json
 
 
-author = Blueprint('author', __name__)
+author = Blueprint('author', __name__, template_folder="../blueprints/author")
 
 
 @author.route("/login", methods=['get'])

@@ -6,6 +6,7 @@ from controller.common import common
 from controller.article import article
 from controller.album import picture, album
 from controller.author import author
+from controller.demoViews import geek
 
 
 def create_app(config_name):
@@ -27,5 +28,6 @@ def create_app(config_name):
     app.register_blueprint(picture, url_prefix='/shangshanfan/picture')
     app.register_blueprint(album, url_prefix='/shangshanfan/album')
     app.register_blueprint(author, url_prefix='/shangshanfan/author')
+    app.register_blueprint(geek, url_prefix='/shangshanfan/geek')
 
     return app
