@@ -281,8 +281,10 @@ def album_delete(albumId):
     pass
 
 
-@album.route('/setCover/<int:albumId>/<int:pictureId>', methods=['get'])
-def album_set_cover(albumId, pictureId):
+@album.route('/setCover', methods=['get'])
+def album_set_cover():
+    albumId = request.args.get('albumId')
+    pictureId = request.args.get('pictureId')
     picture = Picture.query.filter(Picture.id == pictureId).first()
     print picture.tinyLink, albumId
     if picture:
@@ -358,8 +360,9 @@ def page_album_dashboard():
 
 
 # 0 for unsort
-@album.route('/query/<int:albumId>', methods=['get'])
-def page_album_query(albumId):
+@album.route('/query', methods=['get'])
+def page_album_query():
+    albumId = request.args.get('albumId')
     albums = Album.query.all()
 
     login_user = None

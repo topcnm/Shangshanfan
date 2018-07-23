@@ -1,12 +1,20 @@
 # coding=utf-8
-from flask import session, request, Blueprint, render_template
+from flask import session, request, Blueprint, render_template, url_for, redirect
 from webapp.extension import db, logger
 from webapp.model import Author
 from util import response_factory, record_operation, login_required
-import json
-
+from wtforms import Form, StringField
+from wtforms.validators import Length, EqualTo
 
 author = Blueprint('author', __name__, template_folder="../blueprints/author")
+
+
+class RegisterForm(Form):
+    username = StringField(validators=[Length(min=6, max=18, message="username between 6 ~ 18")])
+    nickname = StringField(validators=[Length(min=2, max=30, message="nickname between 2 ~ 30")])
+    password = StringField(validators=[Length(min=6, max=18, message="password between 6 ~ 18")])
+    repeatPassword = StringField(validators=[Length(min=6, max=18, message="repeatPassword between 6 ~ 18"),
+                                              EqualTo('password', message="not equals to password")])
 
 
 @author.route("/login", methods=['get'])
@@ -58,46 +66,56 @@ def page_author_register():
     else:
         username = request.form['username']
         password = request.form['password']
-        repeat_password = request.form['repeatPassword']
         nickname = request.form['nickname']
+        print(request.form)
+        form = RegisterForm(request.form)
 
-        exist_author = Author.query.filter(Author.username == username).first()
-
-        if password != repeat_password or exist_author:
+        if not form.validate():
             return render_template(
                 'register.html',
                 username=username,
                 nickname=nickname,
                 error=response_factory(
                     success=False,
-                    message=u'用户已存在' if exist_author else u'密码不一致'
-                )
-            )
-
-        author = Author(username=username)
-        author.set_password(password)
-        author.nickname = nickname
-
-        db.session.add(author)
-
-        try:
-            db.session.commit()
-        except Exception, reason:
-            return render_template(
-                'register.html',
-                username=username,
-                nickname=nickname,
-                error=response_factory(
-                    success=False,
-                    message=reason
+                    message=form.errors
                 )
             )
         else:
-            # directly login in
-            # session['author_id'] = author.id
-            return response_factory(
-                data={'id': author.id}
-            )
+            exist_author = Author.query.filter(Author.username == username).first()
+
+            if exist_author:
+                return render_template(
+                    'register.html',
+                    username=username,
+                    nickname=nickname,
+                    error=response_factory(
+                        success=False,
+                        message=u'用户已存在'
+                    )
+                )
+
+            author = Author(username=username)
+            author.set_password(password)
+            author.nickname = nickname
+
+            db.session.add(author)
+
+            try:
+                db.session.commit()
+            except Exception, reason:
+                return render_template(
+                    'register.html',
+                    username=username,
+                    nickname=nickname,
+                    error=response_factory(
+                        success=False,
+                        message=reason
+                    )
+                )
+            else:
+                # directly login in
+                session['author_id'] = author.id
+                return redirect(url_for("common.page_home"), code=302)
 
 
 @login_required

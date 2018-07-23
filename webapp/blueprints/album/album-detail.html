@@ -68,7 +68,9 @@
             </div>
          </div>
         {% else %}
-        暂时还有该相册的信息，请到未分类相册中选择照片
+        <div class="container">
+            暂时还有该相册的信息，请到未分类相册中选择照片
+        </div>
         {% endfor %}
     </div>
 </div>
@@ -127,7 +129,7 @@
 
             var albumId = $('.ss-album-frame.border-info').data('album')
             $.ajax({
-                url: '/shangshanfan/picture/migrate',
+                url: '{{url_for("picture.picture_migrate")}}',
                 type: 'post',
                 data: {
                    albumId: albumId,
@@ -153,7 +155,11 @@
             var pictureId = $firstCheckBox.data('picture');
             var albumId = $firstCheckBox.data('album');
             $.ajax({
-                url: '/shangshanfan/album/setCover/' + (albumId || 0) + "/" + pictureId,
+                url: '{{url_for("album.album_set_cover")}}',
+                data: {
+                   albumId: albumId || 0,
+                   pictureId: pictureId
+                },
                 type: 'get',
                 success: function (res) {
                     console.log(13, res)

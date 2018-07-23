@@ -10,6 +10,7 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='image/logo.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 </head>
 <body>
     {% from './macro/breads.html' import rend_breads %}
@@ -31,7 +32,12 @@
     <script src="https://v4.bootcss.com/assets/js/vendor/popper.min.js"></script>
     <script src="https://v4.bootcss.com/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery.form/4.1.0/jquery.form.min.js"></script>
-
+    <script src="https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+    <script>
+        toastr.options.positionClass='toast-top-center';
+        toastr.options.hideDuration= 500;
+        toastr.options.showDuration= 300;
+    </script>
     {% block sub_script %}{% endblock %}
 </body>
 </html>

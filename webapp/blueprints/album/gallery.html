@@ -90,6 +90,7 @@
             multiple: true,
             onSuccess: function (res) {
                 //上传成功，请到对应相册中管理
+                toastr.info('上传成功，请到对应相册中管理')
                 $imgUploaderDom.imgUploader('close').imgUploader('clear');
             },
             onError: function () {
@@ -109,17 +110,17 @@
             tagArr: allTags,
             onConfirm: function (params) {
                 $.ajax({
-                    url: '/shangshanfan/album/create',
+                    url: '{{url_for("album.album_create")}}',
                     type: 'post',
                     data: params,
                     dataType : "json",
                     success: function (res) {
+                        toastr.success('新建成功， 请上传并迁移图片')
                         if (res.success) {
                             $albumCreateDom.albumCreator('close')
 
                             // todo add the new Album
                             var newAlbum = res.data;
-                            console.log(1)
                             var newAblumHtml = '<div class="col-sm-4 ss-album-col-' + newAlbum.id + ' mb-3">' +
                                 '                <div class="card ss-album-card" data-album="' + newAlbum.id + '">' +
                                 '                    <div class="ss-album-img" style="background-image: url(\'/static/image/no-pic.jpeg\')" >' +
@@ -147,11 +148,11 @@
         // Event-binding: link
         $('.tab-pane').on('click', '.ss-album-card', function () {
             var albumId = $(this).data('album');
-            window.location.href = '/shangshanfan/album/query/' + albumId;
+            window.location.href = '{{url_for("album.page_album_query")}}' + '?albumId=' + albumId;
         })
 
         $galleryUnSortBtn.on('click', function () {
-            window.location.href = '/shangshanfan/album/query/0';
+            window.location.href = '{{url_for("album.page_album_query", albumId=0)}}';
         })
     })(window.jQuery)
 </script>
