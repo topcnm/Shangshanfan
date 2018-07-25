@@ -115,8 +115,8 @@
                     data: params,
                     dataType : "json",
                     success: function (res) {
-                        toastr.success('新建成功， 请上传并迁移图片')
                         if (res.success) {
+                            toastr.success('新建成功， 请上传并迁移图片')
                             $albumCreateDom.albumCreator('close')
 
                             // todo add the new Album
@@ -133,6 +133,14 @@
                                 '            </div>'
                             console.log(newAblumHtml)
                             $('#tag' + newAlbum.tagId + ' .row').append(newAblumHtml)
+                        } else {
+                            var errors = '';
+                            for(var key in res.message) {
+                                if (res.message.hasOwnProperty(key)) {
+                                    errors += key + ':' + res.message[key] + '\n'
+                                }
+                            }
+                            toastr.error(errors)
                         }
                     }
                 });

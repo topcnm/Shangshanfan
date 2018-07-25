@@ -4,6 +4,8 @@ from flask import Blueprint, request, render_template, url_for, session, abort
 from webapp.extension import db
 from webapp.model import Picture, Album, Tag, Author
 from util import response_factory, upload_res_factory, login_required
+from wtforms import Form, StringField
+from wtforms.validators import Length, InputRequired
 import json
 import os
 import re
@@ -202,13 +204,28 @@ def picture_migrate():
         )
 
 
+class AlbumCreateFrom(Form):
+    title = StringField(validators=[Length(min=2, max=32, message=u'相册标题必须在2~32字之间')])
+    tagId = StringField(validators=[InputRequired(message=u'关联类型为必填项')])
+    remark = StringField(validators=[Length(max=255, message=u'备注最多255个字')])
+
+
 @album.route('/create', methods=['post'])
 # @login_required
 def album_create():
+    form = AlbumCreateFrom(request.form)
+
+    if not form.validate():
+        print(form.errors)
+        return response_factory(
+            success=False,
+            message=form.errors
+        )
+
     title = request.form['title']
     remark = request.form['remark']
     privacy = bool(request.form['privacy'])
-    author_id = 1 or session['author_id']
+    author_id = session['author_id']
     tagId = request.form['tagId']
 
     album = Album(

@@ -50,7 +50,6 @@ def author_login():
 @author.route("/logout", methods=['post'])
 def author_logout():
     session.pop('author_id')
-    session.pop('author_name')
 
     return response_factory(
         message=u'登出成功'
