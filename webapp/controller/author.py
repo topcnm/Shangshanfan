@@ -10,10 +10,10 @@ author = Blueprint('author', __name__, template_folder="../blueprints/author")
 
 
 class RegisterForm(Form):
-    username = StringField(validators=[Length(min=6, max=18, message="username between 6 ~ 18")])
-    nickname = StringField(validators=[Length(min=2, max=30, message="nickname between 2 ~ 30")])
-    password = StringField(validators=[Length(min=6, max=18, message="password between 6 ~ 18")])
-    repeatPassword = StringField(validators=[Length(min=6, max=18, message="repeatPassword between 6 ~ 18"),
+    username = StringField('用户名', validators=[Length(min=6, max=18, message="username between 6 ~ 18")])
+    nickname = StringField('昵称', validators=[Length(min=2, max=30, message="nickname between 2 ~ 30")])
+    password = StringField('密码', validators=[Length(min=6, max=18, message="password between 6 ~ 18")])
+    repeatPassword = StringField('重复密码', validators=[Length(min=6, max=18, message="repeatPassword between 6 ~ 18"),
                                               EqualTo('password', message="not equals to password")])
 
 
@@ -60,7 +60,7 @@ def author_logout():
 def page_author_register():
     if request.method == 'GET':
         return render_template(
-            'register.html'
+            'register.html',
         )
     else:
         username = request.form['username']
